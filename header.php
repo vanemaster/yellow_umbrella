@@ -10,17 +10,10 @@
     <title>Loja Web II</title>
 
     <!-- Bootstrap core CSS -->
-<<<<<<< Updated upstream
-    <link href="./assets/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="./assets/css/sticky-footer.css" rel="stylesheet">
-=======
     <link href="../assets/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="../assets/css/sticky-footer.css" rel="stylesheet">
->>>>>>> Stashed changes
   </head>
 
   <body>

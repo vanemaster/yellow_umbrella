@@ -1,7 +1,7 @@
 <?php
 
-include_once('FornecedorDao.php');
-include_once('dao/DAO.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/FornecedorDao.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
 
 abstract class MysqlFornecedorDao extends DAO implements FornecedorDao {
 

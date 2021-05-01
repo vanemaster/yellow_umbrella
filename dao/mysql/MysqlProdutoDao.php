@@ -1,9 +1,9 @@
 <?php
 
-include_once('ProdutoDao.php');
-include_once('dao/DAO.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/ProdutoDao.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
 
-abstract class MysqlProdutoDao extends DAO implements ProdutoDao {
+class MysqlProdutoDao extends DAO implements ProdutoDao {
 
     private $table_name = 'produto';
     

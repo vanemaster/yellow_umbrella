@@ -7,7 +7,7 @@ class Produto{
     private $foto;
 
 
-    public function __construct( $id, $nome, $descricao, $foto){
+    public function __construct( $id=null, $nome, $descricao, $foto){
         $this->id=$id;
         $this->nome=$nome;
         $this->descricao=$descricao;

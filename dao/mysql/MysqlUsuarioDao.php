@@ -1,9 +1,10 @@
 <?php
 
-include_once('UsuarioDao.php');
-include_once('dao/DAO.php');
+include_once('../UsuarioDao.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
 
-class MysqlUsuarioDao extends DAO implements UsuarioDao {
+
+abstract class MysqlUsuarioDao extends DAO implements UsuarioDao {
 
     private $table_name = 'usuario';
     

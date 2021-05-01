@@ -1,12 +1,11 @@
 <?php
-interface FornecedorDao {
+interface ProdutoDao {
 
-    public function insere($forncedor);
-    public function remove($forncedor);
-    public function altera($forncedor);
+    public function insere($produto);
+    public function remove($produto);
+    public function altera($produto);
     public function buscaPorId($id);
     public function buscaPorNome($nome);
-    public function buscaPorEmail($email);
     public function buscaTodos();
 }
 ?>

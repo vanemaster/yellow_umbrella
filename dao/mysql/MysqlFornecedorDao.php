@@ -3,7 +3,7 @@
 include_once('FornecedorDao.php');
 include_once('dao/DAO.php');
 
-class MysqlFornecedorDao extends DAO implements FornecedorDao {
+abstract class MysqlFornecedorDao extends DAO implements FornecedorDao {
 
     private $table_name = 'fornecedor';
     

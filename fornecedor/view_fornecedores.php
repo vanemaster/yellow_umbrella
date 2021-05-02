@@ -27,7 +27,8 @@
             </thead>
             <tbody>
             <?php
-                foreach($fornecedores as $item){
+                if($fornecedores){
+                    foreach($fornecedores as $item){
             ?>
                 <tr>
                 <th scope="row"><?=$item->getID()?></th>
@@ -39,6 +40,9 @@
                 <td><a href="exclui_fornecedor.php?id=<?=$item->getID()?>" id="excluiFornecedor" class="btn btn-danger" onclick="return confirm('Você quer mesmo remover este fornecedor?')">Excluir</button></td>
                 </tr>
             <?php 
+                    }
+                }else{
+                    echo "<td colspan=7 style='text-align:center;'>Sem registros</td>";
                 }
             ?>
             </tbody>

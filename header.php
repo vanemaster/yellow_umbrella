@@ -51,6 +51,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
+                </li>
             <?php 
               }
             ?>

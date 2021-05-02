@@ -125,7 +125,7 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
                     p.id, p.nome, p.descricao, p.foto, fornecedor_id, f.nome as fornecedor_nome
                 FROM
                     " . $this->table_name ." p 
-                    JOIN fornecedor f on (fornecedor_id = f.id)
+                    LEFT JOIN fornecedor f on (fornecedor_id = f.id)
                     ORDER BY id ASC";
      
         $stmt = $this->conn->prepare( $query );

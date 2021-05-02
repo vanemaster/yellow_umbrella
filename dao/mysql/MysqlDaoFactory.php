@@ -14,7 +14,7 @@ class MysqlDaofactory extends DaoFactory {
     private $port = "3306";
     private $username = "root";
     // private $password = "";
-    private $password = "v6a10fr4nc486";
+    private $password = "";
     public $conn;
   
     // get the database connection

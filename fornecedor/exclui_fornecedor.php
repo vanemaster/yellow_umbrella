@@ -7,7 +7,7 @@ $id = @$_GET["id"];
 
 $dao = $factory->getFornecedorDao();
 
-$fornecedor = new Fornecedor($id, null, null, null);
+$fornecedor = new Fornecedor($id, null, null, null, null);
 
 $dao->remove($fornecedor);
 

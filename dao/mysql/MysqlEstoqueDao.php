@@ -67,10 +67,8 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         return false;
     }
 
-    public function buscaPorId($id) {
+    public function buscaPorId($id, $pesquisa=null) {
         
-        $estoque = null;
-
         $query = "SELECT
                     e.id, e.quantidade, e.preco, produto_id, p.nome as produto_nome
                 FROM
@@ -85,12 +83,23 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         $stmt->bindParam(1, $id);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $estoque = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], $row['produto_nome']);
-        } 
+        if(!$pesquisa){
+            $estoques = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row) {
+                $estoques = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], $row['produto_nome']);
+            }
+        }else{
+            $estoques = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $estoque = new Estoque($id, $quantidade, $preco, $produto_id, $produto_nome); 
+                $estoques[] = $estoque;
+            }
+        }
      
-        return $estoque;
+        return $estoques;
     }
 
     public function buscaPorProdutoId($produto_id) {
@@ -129,20 +138,21 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
                     " . $this->table_name . " e
                 JOIN produto p on (produto_id = p.id)
                 WHERE
-                    p.nome = ?
+                    p.nome LIKE '%".$nome."%'
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $estoque = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], $row['produto_nome']);
-        } 
-     
-        return $estoque;
+        $estoques = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            extract($row);
+            $estoque = new Estoque($id, $quantidade, $preco, $produto_id, $produto_nome); 
+            $estoques[] = $estoque;
+        }
+        return $estoques;
     }
 
     public function buscaTodos() {

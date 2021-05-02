@@ -1,11 +1,14 @@
 <?php
-    session_start();
+    
     include "../fachada.php";
+    session_start();
     include "../header.php";
     include "../login/verifica.php";
 
     $dao = $factory->getUsuarioDao();
     $usuarios = $dao->buscaTodos();
+
+    $usuarios = (isset($_SESSION["usuarios"])) ? ($_SESSION["usuarios"]) : ($usuarios);
 ?>
 <main role="main" class="container">
     <h3 class="mb-3">Lista de Usuarios</h3>
@@ -17,8 +20,14 @@
                 }
             ?>
         </div>
-        <div class="col-12">
+        <div class="col-8">
             <a href="view_cadastro_usuario.php" class="btn btn-success mb-2">Inserir novo</a>
+        </div>
+        <div class="col-4">
+            <form class="form-inline mt-2 mt-md-0 form-search-list" action="<?=$base?>/usuario/executa_pesquisa.php" method="POST">
+                <input class="form-control mr-sm-2" type="text" name="pesquisa" aria-label="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
         </div>
         <div class="col-12">
         <table class="table">
@@ -33,6 +42,7 @@
             </thead>
             <tbody>
             <?php
+                // include "../model/Usuario.php";
                 if($usuarios){
                     foreach($usuarios as $item){
             ?>

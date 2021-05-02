@@ -69,10 +69,8 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         return false;
     }
 
-    public function buscaPorId($id) {
+    public function buscaPorId($id, $pesquisa=null) {
         
-        $usuario = null;
-
         $query = "SELECT
                     id, email, nome, senha
                 FROM
@@ -86,12 +84,24 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt->bindParam(1, $id);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $usuario = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
-        } 
+        if(!$pesquisa){
+            $usuarios = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row) {
+                $usuarios = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
+            }
+        }else{
+            $usuarios = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $usuario = new Usuario($id,$nome,$email,$senha); 
+                $usuarios[] = $usuario;
+            }
+        }
+         
      
-        return $usuario;
+        return $usuarios;
     }
 
     public function buscaPorEmail($email) {
@@ -119,6 +129,30 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         return $usuario;
     }
 
+    public function buscaPorNome($nome) {
+
+        $query = "SELECT
+                    id, email, nome, senha
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    nome LIKE '%".$nome."%'
+                LIMIT
+                    1 OFFSET 0";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->execute();
+     
+        $usuarios = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            extract($row);
+            $usuario = new Usuario($id,$nome,$email,$senha); 
+            $usuarios[] = $usuario;
+        }
+        return $usuarios;
+    }
+
     public function buscaTodos() {
 
         $query = "SELECT
@@ -127,7 +161,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
                     " . $this->table_name . 
                     " ORDER BY id ASC";
      
-        $stmt = $this->conn->prepare( $query );
+        $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
         $usuarios = [];

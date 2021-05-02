@@ -69,10 +69,8 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         return false;
     }
 
-    public function buscaPorId($id) {
+    public function buscaPorId($id, $pesquisa=null) {
         
-        $produto = null;
-
         $query = "SELECT
                     id, nome, descricao, foto, fornecedor_id
                 FROM
@@ -85,13 +83,24 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         $stmt = $this->conn->prepare( $query );
         $stmt->bindParam(1, $id);
         $stmt->execute();
+
+        if(!$pesquisa){
+            $produtos = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row) {
+                $produtos = new Produto($row['id'],$row['nome'], $row['descricao'], $row['foto'], $row['fornecedor_id']);
+            }
+        }else{
+            $produtos = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $produto = new Produto($id, $nome, $descricao, $foto, $fornecedor_id, $fornecedor_nome); 
+                $produtos[] = $produto;
+            }
+        }
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $produto = new Produto($row['id'],$row['nome'], $row['descricao'], $row['foto'], $row['fornecedor_id']);
-        } 
-     
-        return $produto;
+        return $produtos;
     }
 
     public function buscaPorNome($nome) {
@@ -103,20 +112,21 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    nome = ?
+                    nome LIKE '%".$nome."%'
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $produto = new Produto($row['id'],$row['nome'], $row['descricao'], $row['foto'], $row['fornecedor_id']);
-        } 
-     
-        return $produto;
+        $produtos = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            extract($row);
+            $produto = new Produto($id, $nome, $descricao, $foto, $fornecedor_id, $fornecedor_nome); 
+            $produtos[] = $produto;
+        }
+        return $produtos;
     }
 
     public function buscaTodos() {

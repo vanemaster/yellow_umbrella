@@ -75,10 +75,8 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         return false;
     }
 
-    public function buscaPorId($id) {
+    public function buscaPorId($id, $pesquisa=null) {
         
-        $fornecedor = null;
-
         $query = "SELECT
                     id, nome, descricao, email, telefone
                 FROM
@@ -92,12 +90,23 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         $stmt->bindParam(1, $id);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $fornecedor = new Fornecedor($row['id'],$row['nome'], $row['descricao'], $row['email'], $row['telefone']);
-        } 
+        if(!$pesquisa){
+            $fornecedores = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row) {
+                $fornecedores = new Fornecedor($row['id'],$row['nome'], $row['descricao'], $row['email'], $row['telefone']);
+            }
+        }else{
+            $fornecedores = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $fornecedor = new Fornecedor($id,$nome,$descricao,$email,$telefone); 
+                $fornecedores[] = $fornecedor;
+            }
+        }
      
-        return $fornecedor;
+        return $fornecedores;
     }
 
     public function buscaPorNome($nome) {
@@ -109,20 +118,21 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    nome = ?
+                    nome LIKE '%".$nome."%'
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
         $stmt->execute();
      
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $fornecedor = new Fornecedor($row['id'],$row['nome'], $row['descricao'], $row['email'], $row['telefone']);
-        } 
-     
-        return $fornecedor;
+        $fornecedores = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            extract($row);
+            $fornecedor = new Fornecedor($id,$nome,$descricao,$email,$telefone); 
+            $fornecedores[] = $fornecedor;
+        }
+        return $fornecedores;
     }
 
     public function buscaPorEmail($email) {
@@ -161,14 +171,14 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
 
-        $fornecedors = [];
+        $fornecedores = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
             $fornecedor = new Fornecedor($id,$nome,$descricao,$email,$telefone); 
-            $fornecedors[] = $fornecedor;
+            $fornecedores[] = $fornecedor;
         }
-        return $fornecedors;
+        return $fornecedores;
     }
 }
 ?>

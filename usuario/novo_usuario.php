@@ -6,7 +6,7 @@ include_once "../header.php";
  <main role="main" class="container">
     <h3 class="mb-3">Novo Usuário</h3>
     <div class="row">
-        <form action="insere_usuario.php" method="post">
+        <form action="salva_usuario.php" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Email</td>

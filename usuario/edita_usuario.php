@@ -1,5 +1,6 @@
 <?php
 include_once "../fachada.php";
+include_once "../header.php";
 
 $id = @$_GET["id"];
 
@@ -17,7 +18,7 @@ if($usuario==null) {
 	</head>
 	<body>
 	
-		<h1>Cadastro de usuários</h1>
+		<h1>Edita o Cadastro de usuário</h1>
 
         <form action="salvaUsuario.php" method=post>
             <label for="id">Id:</label>
@@ -38,4 +39,5 @@ if($usuario==null) {
         <a href="usuarios.php">Voltar</a>
 		  
     </body>
+    <?php include_once "../footer.php";?>
 </html>

@@ -1,6 +1,6 @@
-<footer class="footer">
+    <footer class="footer bg-dark">
       <div class="container">
-        <span class="text-muted">Loja Virtual Yellow Umbrella - Douglas Giacomelli e Vanessa França</span>
+        <span class="footer-text">Yellow Umbrella Store - Douglas Giacomelli e Vanessa França</span>
       </div>
     </footer>
 

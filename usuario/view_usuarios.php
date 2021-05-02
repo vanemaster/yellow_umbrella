@@ -2,6 +2,7 @@
     session_start();
     include "../fachada.php";
     include "../header.php";
+    include "../login/verifica.php";
 
     $dao = $factory->getUsuarioDao();
     $usuarios = $dao->buscaTodos();
@@ -52,5 +53,5 @@
         </table>
         </div>
     </div>
-<main>
+</main>
 <?php include "../footer.php"; ?>

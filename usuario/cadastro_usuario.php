@@ -1,7 +1,7 @@
 <?php
 
-session_start();
 include_once("../fachada.php");
+include_once("../login/verifica.php");
 
 $result = true;
 $_SESSION["message"] = "";

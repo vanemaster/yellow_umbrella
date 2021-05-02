@@ -1,6 +1,7 @@
 <?php
 
 include_once("../fachada.php");
+include_once("../login/verifica.php");
 
 $result = true;
 

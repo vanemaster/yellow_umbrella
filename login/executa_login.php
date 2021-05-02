@@ -1,26 +1,26 @@
 <?php 
 // Métodos de acesso ao banco de dados 
-require "fachada.php"; 
+require "../fachada.php"; 
  
 // Inicia sessão 
 session_start();
+$_SESSION["message"] = "";
 
 // Recupera o login 
-$login = isset($_POST["login"]) ? addslashes(trim($_POST["login"])) : FALSE; 
+$email = isset($_POST["email"]) ? addslashes(trim($_POST["email"])) : FALSE; 
+
 // Recupera a senha, a criptografando em MD5 
-$senha = isset($_POST["senha"]) ? md5(trim($_POST["senha"])) : FALSE; 
-//$senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : FALSE; 
- 
+$senha = isset($_POST["senha"]) ? md5(trim($_POST["senha"])) : FALSE;
+
 // Usuário não forneceu a senha ou o login 
-if(!$login || !$senha) 
+if(!$email || !$senha) 
 { 
-    echo "Você deve digitar sua senha e login!<br>"; 
-    echo "<a href='login.php'>Efetuar Login</a>";
-    exit; 
+    $_SESSION["message"] = "E-mail ou senha incorretos!<br>";
+    header("Location: view_login.php"); 
 }  
 
 $dao = $factory->getUsuarioDao();
-$usuario = $dao->buscaPorLogin($login);
+$usuario = $dao->buscaPorEmail($email);
 
 $problemas = FALSE;
 if($usuario) {
@@ -31,7 +31,7 @@ if($usuario) {
         $_SESSION["id_usuario"]= $usuario->getId(); 
         $_SESSION["nome_usuario"] = stripslashes($usuario->getNome()); 
         //$_SESSION["permissao"]= $dados["postar"]; 
-        header("Location: index.php"); 
+        header("Location: ../index/view_index.php"); 
         exit; 
     } else {
         $problemas = TRUE; 
@@ -41,7 +41,7 @@ if($usuario) {
 }
 
 if($problemas==TRUE) {
-    header("Location: index.php"); 
-    exit; 
+    $_SESSION["message"] = "E-mail ou senha incorretos!<br>";
+    header("Location: view_login.php"); 
 }
 ?>

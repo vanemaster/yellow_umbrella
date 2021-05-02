@@ -2,6 +2,7 @@
     session_start();
     include "../fachada.php";
     include "../header.php";
+    include "../login/verifica.php";
 
     $id = @$_GET["id"];
     $dao = $factory->getUsuarioDao();

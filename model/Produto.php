@@ -17,8 +17,8 @@ class Produto{
         $this->fornecedor_nome=$fornecedor_nome;
     }
 
-    public function getId() { return $this->id; }
-    public function setId($id) {$this->id = $id;}
+    public function getId() { return intval($this->id); }
+    public function setId($id) {$this->id = intval($id);}
 
     public function getNome() { return $this->nome; }
     public function setNome($nome) {$this->nome = $nome;}

@@ -7,7 +7,9 @@ $id = @$_GET["id"];
 
 $dao = $factory->getProdutoDao();
 
-$produto = new Produto($id, null, null, null);
+$produto = new Produto($id, null, null, null, null, null);
+
+unset($_SESSION["produtos"]);
 
 $dao->remove($produto);
 

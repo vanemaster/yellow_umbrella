@@ -9,7 +9,7 @@
             <img src="../assets/img/cat-umbrella.png">
         </div>
         <div class="col-8 welcome-message">
-            <h4>Bem Vindo(a) à Yellow Umbrella!</h4>
+            <h4>Bem Vindo(a) à <span style="color:#ffff00;">Y</span>ellow <span style="color:#ffff00;">U</span>mbrella!</h4>
         </div>
     </div>
 </main>

@@ -12,7 +12,7 @@ include_once "../header.php";
                 }
             ?>
         </div>
-        <div class="col-12">
+        <div class="col-lg-6 col-sm-12">
             <form action="executa_login.php" method="POST" role="form">
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -23,7 +23,7 @@ include_once "../header.php";
                     <input type="password" class="form-control" id="senha" name="senha">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="submit" class="btn btn-warning">Enviar</button>
                     <a href="../index/index.php" class="btn btn-light">Cancelar</a>
                 </div>
             </form>

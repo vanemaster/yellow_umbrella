@@ -19,6 +19,13 @@
 
     <!-- Custom styles for this template -->
     <link href="../assets/css/sticky-footer.css" rel="stylesheet">
+
+    <style>
+    .form-control:focus {
+        border-color: #ffff00;
+        box-shadow: 0px 1px 1px rgba(190, 221, 14, 0.075) inset, 0px 0px 8px rgba(190, 221, 14, 0.5);
+    }
+</style>
   </head>
 
   <body>

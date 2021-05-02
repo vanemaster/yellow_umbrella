@@ -88,7 +88,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['email'], $row['senha'], $row['nome']);
+            $usuario = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
         } 
      
         return $usuario;
@@ -113,7 +113,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['email'], $row['senha'], $row['nome']);
+            $usuario = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
         } 
      
         return $usuario;
@@ -122,7 +122,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, email, senha, nome
+                    id, nome, email, senha
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -134,7 +134,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$email,$senha,$nome); 
+            $usuario = new Usuario($id,$nome,$email,$senha); 
             $usuarios[] = $usuario;
         }
         return $usuarios;

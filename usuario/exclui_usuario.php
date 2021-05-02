@@ -10,6 +10,6 @@ $usuario = new Usuario($id, null, null, null);
 
 $dao->remove($usuario);
 
-header("Location: usuarios.php");
+header("Location: view_usuarios.php");
 
 ?>

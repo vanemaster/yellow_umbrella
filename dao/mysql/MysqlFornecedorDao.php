@@ -3,7 +3,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/FornecedorDao.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
 
-abstract class MysqlFornecedorDao extends DAO implements FornecedorDao {
+class MysqlFornecedorDao extends DAO implements FornecedorDao {
 
     private $table_name = 'fornecedor';
     
@@ -103,7 +103,32 @@ abstract class MysqlFornecedorDao extends DAO implements FornecedorDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    login = ?
+                    nome = ?
+                LIMIT
+                    1 OFFSET 0";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindParam(1, $nome);
+        $stmt->execute();
+     
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row) {
+            $fornecedor = new Fornecedor($row['id'],$row['nome'], $row['descricao'], $row['email'], $row['telefone']);
+        } 
+     
+        return $fornecedor;
+    }
+
+    public function buscaPorEmail($email) {
+
+        $fornecedor = null;
+
+        $query = "SELECT
+                    id, nome, descricao, email, telefone
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    email = ?
                 LIMIT
                     1 OFFSET 0";
      

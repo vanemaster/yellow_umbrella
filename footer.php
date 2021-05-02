@@ -11,5 +11,7 @@
     <script>window.jQuery || document.write('<script src="../assets/bootstrap4/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="../assets/bootstrap4/assets/js/vendor/popper.min.js"></script>
     <script src="../assets/bootstrap4/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/jquery.mask.min.js"></script>
+    <script src="../assets/js/custom.js"></script>
   </body>
 </html>

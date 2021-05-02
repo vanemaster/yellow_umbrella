@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title>Loja Web II</title>
+    <title>Loja Yellow Umbrella</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
     <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="index.php">Loja Web II</a>
+        <a class="navbar-brand" href="index.php">Loja Yellow Umbrella</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

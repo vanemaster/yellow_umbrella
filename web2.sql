@@ -24,20 +24,8 @@ CREATE TABLE `produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `produto` (`id`, `nome`, `descricao`, `foto`, `fornecedor_id`) VALUES
-(5,	'Teste',	'erere',	'',	1);
-
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE `usuario` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `senha` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `nome` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`) VALUES
-(3,	'vafranca@gmail.com',	'd135caa777ebab250ab86e3fc9257b77',	'Vanessa');
+(5,	'Teste',	'erere',	'',	1),
+(6,	'Guarda Chuva Rainbow',	'teste',	'',	1);
 
 DROP TABLE IF EXISTS `estoque`;
 CREATE TABLE `estoque` (
@@ -51,6 +39,21 @@ CREATE TABLE `estoque` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
-(1,	20,	65.46,	5);
+(1,	20,	56.23,	5),
+(5,	30,	89.90,	6);
 
--- 2021-05-02 03:57:00
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE `usuario` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `senha` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `nome` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login` (`email`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`) VALUES
+(3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa'),
+(4,	'doug@doug.com',	'b8c5fa008715b53b95c874d73b4dcc02',	'Douglas');
+
+-- 2021-05-02 16:23:18

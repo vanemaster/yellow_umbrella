@@ -20,17 +20,17 @@
                 }
             ?>
         </div>
-        <div class="col-8">
+        <div class="col-lg-8 col-sm-12">
             <a href="view_cadastro_fornecedor.php" class="btn btn-success mb-2">Inserir novo</a>
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-sm-12">
             <form class="form-inline mt-2 mt-md-0 form-search-list" action="<?=$base?>/fornecedor/executa_pesquisa.php" method="POST">
                 <input class="form-control mr-sm-2" type="text" name="pesquisa" aria-label="Pesquisar">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
         </div>
         <div class="col-12">
-        <table class="table">
+        <table class="table table-responsive">
             <thead class="thead-dark">
                 <tr>
                 <th scope="col">#</th>

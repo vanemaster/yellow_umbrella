@@ -1,26 +1,3 @@
-<br />
-<b>Warning</b>:  Trying to access array offset on value of type bool in <b>/var/www/html/adminer.php</b> on line <b>1473</b><br />
--- Adminer 4.8.0 MySQL 8.0.23-0ubuntu0.20.04.1 dump
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-SET NAMES utf8mb4;
-
-DROP TABLE IF EXISTS `estoque`;
-CREATE TABLE `estoque` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `quantidade` int NOT NULL,
-  `preco` decimal(10,0) NOT NULL,
-  `produto_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `produto_id` (`produto_id`),
-  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -31,6 +8,8 @@ CREATE TABLE `fornecedor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `fornecedor` (`id`, `nome`, `descricao`, `email`, `telefone`) VALUES
+(1,	'Fornecedor 134',	'teste353refdc\\sf',	'teste@teste123',	'(54) 54654-6464');
 
 DROP TABLE IF EXISTS `produto`;
 CREATE TABLE `produto` (
@@ -38,9 +17,14 @@ CREATE TABLE `produto` (
   `nome` varchar(255) NOT NULL,
   `descricao` text NOT NULL,
   `foto` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `fornecedor_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fornecedor_id` (`fornecedor_id`),
+  CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `produto` (`id`, `nome`, `descricao`, `foto`, `fornecedor_id`) VALUES
+(5,	'Teste',	'erere',	'',	1);
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
@@ -52,5 +36,21 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `login` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`) VALUES
+(3,	'vafranca@gmail.com',	'd135caa777ebab250ab86e3fc9257b77',	'Vanessa');
 
--- 2021-05-01 18:38:37
+DROP TABLE IF EXISTS `estoque`;
+CREATE TABLE `estoque` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantidade` int NOT NULL,
+  `preco` decimal(12,2) NOT NULL,
+  `produto_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `produto_id` (`produto_id`),
+  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
+(1,	20,	65.46,	5);
+
+-- 2021-05-02 03:57:00

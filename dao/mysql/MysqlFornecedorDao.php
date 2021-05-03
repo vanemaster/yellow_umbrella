@@ -118,9 +118,7 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    nome LIKE '%".$nome."%'
-                LIMIT
-                    1 OFFSET 0";
+                    nome LIKE '%".$nome."%'";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();

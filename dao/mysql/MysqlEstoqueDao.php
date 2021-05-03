@@ -138,9 +138,7 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
                     " . $this->table_name . " e
                 JOIN produto p on (produto_id = p.id)
                 WHERE
-                    p.nome LIKE '%".$nome."%'
-                LIMIT
-                    1 OFFSET 0";
+                    p.nome LIKE '%".$nome."%'";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();

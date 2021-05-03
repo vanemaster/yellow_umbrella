@@ -37,6 +37,10 @@ if($result){
         $idInserido = $dao->insere($fornecedor);
     }
 
+    if(isset($_SESSION["fornecedores"])){
+        unset($_SESSION["fornecedores"]);
+    }
+
     header("Location: view_fornecedores.php");
 
 }

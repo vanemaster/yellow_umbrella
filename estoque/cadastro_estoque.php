@@ -36,6 +36,10 @@ if($result){
         $idInserido = $dao->insere($estoque);
     }
 
+    if(isset($_SESSION["estoque"])){
+        unset($_SESSION["estoque"]);
+    }
+
     header("Location: view_estoque.php");
 }
 

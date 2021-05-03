@@ -108,13 +108,12 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         $produto = null;
 
         $query = "SELECT
-                    id, nome, descricao, foto, fornecedor_id
+                    p.id, p.nome, p.descricao, p.foto, fornecedor_id, f.nome as fornecedor_nome
                 FROM
-                    " . $this->table_name . "
+                    " . $this->table_name . " p
+                LEFT JOIN fornecedor f on (fornecedor_id = f.id)
                 WHERE
-                    nome LIKE '%".$nome."%'
-                LIMIT
-                    1 OFFSET 0";
+                    p.nome LIKE '%".$nome."%'";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();

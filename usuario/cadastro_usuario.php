@@ -40,6 +40,10 @@ if($result){
         
     }
 
+    if(isset($_SESSION["usuarios"])){
+        unset($_SESSION["usuarios"]);
+    }
+
     header("Location: view_usuarios.php");
 }
 

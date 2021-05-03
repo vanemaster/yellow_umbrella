@@ -36,6 +36,10 @@ if($result){
         
     }
 
+    if(isset($_SESSION["produtos"])){
+        unset($_SESSION["produtos"]);
+    }
+
     header("Location: view_produtos.php");
 }
 

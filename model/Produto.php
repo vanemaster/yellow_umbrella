@@ -3,16 +3,16 @@ class Produto{
     private $id;
     private $nome;
     private $descricao;
-    private $foto;
+    private $imagem;
     private $fornecedor_id;
     private $fornecedor_nome;
 
 
-    public function __construct( $id=null, $nome, $descricao, $foto, $fornecedor_id, $fornecedor_nome=null){
+    public function __construct( $id=null, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome=null){
         $this->id=$id;
         $this->nome=$nome;
         $this->descricao=$descricao;
-        $this->foto=$foto;
+        $this->imagem=$imagem;
         $this->fornecedor_id=$fornecedor_id;
         $this->fornecedor_nome=$fornecedor_nome;
     }
@@ -26,8 +26,8 @@ class Produto{
     public function getDescricao() { return $this->descricao; }
     public function setDescricao($descricao) {$this->descricao = $descricao;}
 
-    public function getFoto() { return $this->foto; }
-    public function setFoto($foto) {$this->foto = $foto;}
+    public function getImagem() { return $this->imagem; }
+    public function setImagem($imagem) {$this->imagem = $imagem;}
     
     public function getFornecedor() { return $this->fornecedor_id; }
     public function setFornecedor($fornecedor_id) {$this->fornecedor_id = $fornecedor_id;}

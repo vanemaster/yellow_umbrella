@@ -11,8 +11,19 @@
 <main role="main" class="container">
     <h3 class="mb-3">Novo Produto</h3>
     <div class="row">
+        <div class="col-12">
+            <?php 
+                if(isset($_SESSION["message"])){
+                    echo "<h3>".$_SESSION["message"]."</h3>";
+                }
+            ?>
+        </div>
         <div class="col-lg-6 col-sm-12">
-            <form action="cadastro_produto.php" method="post">
+            <form action="cadastro_produto.php" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="imagem">Imagem do Produto</label>
+                    <input type="file" class="form-control-file" name="imagem" id="imagem">
+                </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Nome</label>
                     <input type="text" class="form-control" name="nome" id="exampleFormControlInput1" required>

@@ -19,9 +19,26 @@
 <main role="main" class="container">
     <h3 class="mb-3">Alterar Produto</h3>
     <div class="row">
+        <div class="col-12">
+            <?php 
+                if(isset($_SESSION["message"])){
+                    echo "<h3>".$_SESSION["message"]."</h3>";
+                }
+            ?>
+        </div>
         <div class="col-lg-6 col-sm-12">
-            <form action="cadastro_produto.php" method="post">
+            <form action="cadastro_produto.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?=$produto->getId()?>"/>
+                <div class="form-group">
+                <?php 
+                    echo "<label for='imagem-produto' class='col-12'>Imagem atual:</label>";
+                    echo "<img src='".$base."/produto/imagens/".$produto->getImagem()."'/ class='imagem-produto img-thumbnail' id='imagem-produto'>";
+                ?>
+                </div>
+                <div class="form-group">
+                    <label for="imagem">Alterar Imagem do Produto</label>
+                    <input type="file" class="form-control-file" name="imagem" id="imagem">
+                </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Nome</label>
                     <input type="text" value="<?=$produto->getNome()?>" class="form-control" name="nome" id="exampleFormControlInput1">

@@ -25,13 +25,14 @@
         }else{
     ?>
         <section class="jumbotron text-center">
-            <div class="container">
-                <h1 class="jumbotron-heading"><span style="color:#ffff00;">Y</span>ellow <span style="color:#ffff00;">U</span>mbrella!</h1>
-                <p class="lead text-muted">Seja bem vindo(a) à casa dos guarda chuvas! Conheça nossos modelos e encante-se!</p>
-                <!-- <p>
-                    <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                </p> -->
+            <div class="col-5 jumbotron-content-img">
+                <img class="img-jumbotron" src="<?=$base?>/assets/img/cat-umbrella.png"/>
+            </div>
+            <div class="col-5 jumbotron-content-text">
+                <div class="col-12">
+                    <h1 class="jumbotron-heading"><span style="color:#ffff00;">Y</span>ellow <span style="color:#ffff00;">U</span>mbrella!</h1>
+                    <p class="lead text-muted">Seja bem vindo(a) à casa dos guarda chuvas! Conheça nossos modelos e encante-se!</p>
+                </div>
             </div>
         </section>
 

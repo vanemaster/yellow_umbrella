@@ -54,6 +54,20 @@
     padding: .15rem 0;
     color: #535353;
 }
+.jumbotron{
+    display: flex;
+}
+.jumbotron-content-img{
+    display: flex;
+    justify-content: flex-end;
+}
+.jumbotron-content-text{
+    display: flex;
+    align-items: center;
+}
+.img-jumbotron{
+    width: 200px;
+}
 
 @media only screen and (min-width: 300px) and (max-width:768px) {
     .index-cover img{

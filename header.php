@@ -43,23 +43,23 @@
             <?php
               if(!isset($_SESSION["id_usuario"])){
             ?>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/login/view_login.php">Login</a>
                 </li>
             <?php
               }
               if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
             ?>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/fornecedor/view_fornecedores.php">Fornecedores</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
                 </li>
             <?php 

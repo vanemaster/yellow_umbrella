@@ -12,8 +12,8 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function insere($usuario) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (email, senha, nome) VALUES" .
-        " (:email, :senha, :nome)";
+        " (email, senha, nome, perfil_id) VALUES" .
+        " (:email, :senha, :nome, :perfil_id)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -21,6 +21,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt->bindParam(":email", $usuario->getEmail());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
+        $stmt->bindParam(":perfil_id", $usuario->getPerfilID());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -50,7 +51,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function altera($usuario) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET email = :email, senha = :senha, nome = :nome" .
+        " SET email = :email, senha = :senha, nome = :nome, perfil_id = :perfil_id" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -59,6 +60,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt->bindParam(":email", $usuario->getEmail());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
+        $stmt->bindParam(":perfil_id", $usuario->getPerfilID());
         $stmt->bindParam(':id', $usuario->getId());
 
         // execute the query
@@ -72,7 +74,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT
-                    id, email, nome, senha
+                    id, email, nome, senha, perfil_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -88,14 +90,14 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
             $usuarios = null;
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row) {
-                $usuarios = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
+                $usuarios = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha'], $row['perfil_id']);
             }
         }else{
             $usuarios = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
                 extract($row);
-                $usuario = new Usuario($id,$nome,$email,$senha); 
+                $usuario = new Usuario($id,$nome,$email,$senha,$perfil_id); 
                 $usuarios[] = $usuario;
             }
         }
@@ -109,7 +111,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $usuario = null;
 
         $query = "SELECT
-                    id, email, nome, senha
+                    id, email, nome, senha, perfil_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -123,7 +125,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha']);
+            $usuario = new Usuario($row['id'],$row['nome'], $row['email'], $row['senha'], $row['perfil_id']);
         } 
      
         return $usuario;
@@ -132,7 +134,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function buscaPorNome($nome) {
 
         $query = "SELECT
-                    id, email, nome, senha
+                    id, email, nome, senha, perfil_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -145,7 +147,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$nome,$email,$senha); 
+            $usuario = new Usuario($id,$nome,$email,$senha,$perfil_id); 
             $usuarios[] = $usuario;
         }
         return $usuarios;
@@ -154,7 +156,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, nome, email, senha
+                    id, nome, email, senha, perfil_id
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -166,7 +168,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$nome,$email,$senha); 
+            $usuario = new Usuario($id,$nome,$email,$senha,$perfil_id); 
             $usuarios[] = $usuario;
         }
         return $usuarios;

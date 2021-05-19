@@ -108,9 +108,10 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         $produto = null;
 
         $query = "SELECT
-                    p.id, p.nome, p.descricao, p.imagem, fornecedor_id, f.nome as fornecedor_nome
+                    p.id, p.nome, p.descricao, p.imagem, fornecedor_id, f.nome as fornecedor_nome, e.preco as produto_preco
                 FROM
                     " . $this->table_name . " p
+                LEFT JOIN estoque e on (e.produto_id = p.id)
                 LEFT JOIN fornecedor f on (fornecedor_id = f.id)
                 WHERE
                     p.nome LIKE '%".$nome."%'";
@@ -122,7 +123,7 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome); 
+            $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome, $produto_preco); 
             $produtos[] = $produto;
         }
         return $produtos;
@@ -131,9 +132,10 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    p.id, p.nome, p.descricao, p.imagem, fornecedor_id, f.nome as fornecedor_nome
+                    p.id, p.nome, p.descricao, p.imagem, fornecedor_id, f.nome as fornecedor_nome, e.preco as produto_preco, e.quantidade as produto_quantidade
                 FROM
                     " . $this->table_name ." p 
+                    LEFT JOIN estoque e on (e.produto_id = p.id)
                     LEFT JOIN fornecedor f on (fornecedor_id = f.id)
                     ORDER BY id ASC";
      
@@ -144,7 +146,7 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome); 
+            $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome, $produto_preco, $produto_quantidade); 
             $produtos[] = $produto;
         }
         return $produtos;

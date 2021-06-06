@@ -12,4 +12,6 @@ $(document).ready(function(){
     $('.telefone').mask(SPMaskBehavior, spOptions);
 
     $('.money').mask('#.##0,00', {reverse: true});
+
+    $(".data").mask("99/99/9999");
 });

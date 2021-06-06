@@ -1,3 +1,86 @@
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE `cliente` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `telefone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `cartao_credito` varchar(255) NOT NULL,
+  `endereco_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `endereco_id` (`endereco_id`),
+  CONSTRAINT `cliente_ibfk_2` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `cliente` (`id`, `nome`, `telefone`, `email`, `cartao_credito`, `endereco_id`) VALUES
+(1,	'Cliente 1',	'(56) 4654-646',	'teste@testecliente',	'8979878979',	5);
+
+DROP TABLE IF EXISTS `endereco`;
+CREATE TABLE `endereco` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rua` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `numero` int NOT NULL,
+  `complemento` varchar(255) NOT NULL,
+  `cidade` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `estado_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `estado_id` (`estado_id`),
+  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `endereco` (`id`, `rua`, `numero`, `complemento`, `cidade`, `estado_id`) VALUES
+(5,	'Rua das Camélias teste',	588,	'apto 13',	'Caxias do Sul',	21);
+
+DROP TABLE IF EXISTS `estados`;
+CREATE TABLE `estados` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sigla` varchar(25) NOT NULL,
+  `estado` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `estados` (`id`, `sigla`, `estado`) VALUES
+(1,	'AC',	'Acre'),
+(2,	'AL',	'Alagoas'),
+(3,	'AP',	'Amapá'),
+(4,	'AM',	'Amazonas'),
+(5,	'BA',	'Bahia'),
+(6,	'CE',	'Ceará'),
+(7,	'DF',	'Distrito Federal'),
+(8,	'ES',	'Espírito Santo'),
+(9,	'GO',	'Goiás'),
+(10,	'MA',	'Maranhão'),
+(11,	'MS',	'Mato Grosso do Sul'),
+(12,	'MT',	'Mato Grosso'),
+(13,	'MG',	'Minas Gerais'),
+(14,	'PA',	'Pará'),
+(15,	'PB',	'Paraíba'),
+(16,	'PR',	'Paraná'),
+(17,	'PE',	'Pernambuco'),
+(18,	'PI',	'Piauí'),
+(19,	'RJ',	'Rio de Janeiro'),
+(20,	'RN',	'Rio Grande do Norte'),
+(21,	'RS',	'Rio Grande do Sul'),
+(22,	'RO',	'Rondônia'),
+(23,	'RR',	'Roraima'),
+(24,	'SC',	'Santa Catarina'),
+(25,	'SP',	'São Paulo'),
+(26,	'SE',	'Sergipe'),
+(27,	'TO',	'Tocantins');
+
+DROP TABLE IF EXISTS `estoque`;
+CREATE TABLE `estoque` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantidade` int NOT NULL,
+  `preco` decimal(12,2) NOT NULL,
+  `produto_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `produto_id` (`produto_id`),
+  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
+(8,	20,	45.23,	9);
+
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -5,12 +88,55 @@ CREATE TABLE `fornecedor` (
   `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(255) NOT NULL,
   `telefone` varchar(255) NOT NULL,
+  `endereco_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `endereco_id` (`endereco_id`),
+  CONSTRAINT `fornecedor_ibfk_2` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `fornecedor` (`id`, `nome`, `descricao`, `email`, `telefone`, `endereco_id`) VALUES
+(2,	'Fornecedor Teste',	'Teste',	'teste@testeguardachuva.com',	'(65) 46465-4646',	NULL),
+(3,	'Fornecedor Guarda Chuva',	'tese',	'teste@testeguarda.com',	'(87) 98797-8979',	NULL);
+
+DROP TABLE IF EXISTS `item_pedido`;
+CREATE TABLE `item_pedido` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantidade` int NOT NULL,
+  `preco` decimal(10,0) NOT NULL,
+  `pedido_id` int NOT NULL,
+  `produto_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pedido_id` (`pedido_id`),
+  KEY `produto_id` (`produto_id`),
+  CONSTRAINT `item_pedido_ibfk_1` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`),
+  CONSTRAINT `item_pedido_ibfk_3` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `pedido`;
+CREATE TABLE `pedido` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `numero` int NOT NULL,
+  `data_pedido` datetime NOT NULL,
+  `data_entrega` datetime NOT NULL,
+  `situacao` varchar(255) NOT NULL,
+  `cliente_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cliente_id` (`cliente_id`),
+  CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `perfil`;
+CREATE TABLE `perfil` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `fornecedor` (`id`, `nome`, `descricao`, `email`, `telefone`) VALUES
-(2,	'Fornecedor Teste',	'Teste',	'teste@testeguardachuva.com',	'(65) 46465-4646'),
-(3,	'Fornecedor Guarda Chuva',	'tese',	'teste@testeguarda.com',	'(87) 98797-8979');
+INSERT INTO `perfil` (`id`, `nome`) VALUES
+(1,	'Admin'),
+(2,	'Cliente');
 
 DROP TABLE IF EXISTS `produto`;
 CREATE TABLE `produto` (
@@ -29,31 +155,19 @@ INSERT INTO `produto` (`id`, `nome`, `descricao`, `imagem`, `fornecedor_id`) VAL
 (10,	'Melancia',	'Modelo melancia',	'watermellon_umprella_05-19-2021_101920.jpg',	2),
 (13,	'Umbrella Mondo',	'teste',	'umbrella_mondo_05-19-2021_103549.jpg',	2);
 
-DROP TABLE IF EXISTS `estoque`;
-CREATE TABLE `estoque` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `quantidade` int NOT NULL,
-  `preco` decimal(12,2) NOT NULL,
-  `produto_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `produto_id` (`produto_id`),
-  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
-(8,	20,	45.23,	9);
-
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `senha` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `nome` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `perfil_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`email`)
+  UNIQUE KEY `login` (`email`),
+  KEY `perfil_id` (`perfil_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`) VALUES
-(3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa');
+INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`, `perfil_id`) VALUES
+(3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa',	NULL);
 
--- 2021-05-19 13:37:13
+-- 2021-06-06 21:06:52

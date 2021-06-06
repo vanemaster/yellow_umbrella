@@ -51,6 +51,9 @@
               if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
             ?>
                 <li class="nav-item active">
+                  <a class="nav-link" href="<?=$base?>/cliente/view_clientes.php">Clientes</a>
+                </li>
+                <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
                 </li>
                 <li class="nav-item active">

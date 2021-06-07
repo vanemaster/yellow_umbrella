@@ -67,6 +67,26 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         return false;
     }
 
+    public function altera_estoque($produto_id, $qtde) {
+
+        $query = "UPDATE " . $this->table_name . 
+        " SET quantidade = :quantidade" .
+        " WHERE produto_id = :produto_id";
+
+        $stmt = $this->conn->prepare($query);
+
+        // bind parameters
+        $stmt->bindParam(":quantidade", $qtde);
+        $stmt->bindParam(':produto_id', $produto_id);
+
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }    
+
+        return false;
+    }
+
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT

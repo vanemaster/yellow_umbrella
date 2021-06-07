@@ -14,4 +14,20 @@ $(document).ready(function(){
     $('.money').mask('#.##0,00', {reverse: true});
 
     $(".data").mask("99/99/9999");
+
+    $(".btn-add-cart").click(function(){
+      var button = $(this);
+      $.ajax({
+        url: URL_BASE + "/pedido/carrinho.php",
+        type: "post",
+        data: {"add_item":true, "id_produto":button.attr('id')} ,
+        success: function (response) {
+          console.log('response');
+          console.log(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+      });
+    });
 });

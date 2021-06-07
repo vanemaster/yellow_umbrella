@@ -67,7 +67,7 @@
                                                     <p class="card-text">R$ <?=$produto->getProdutoPreco()?></p>
                                                     <div class="d-flex justify-content-center align-items-center">
                                                         <div class="btn-group">
-                                                            <button type="button" class="btn btn-sm btn-warning">Adicionar ao carrinho</button>
+                                                            <button type="button" class="btn btn-sm btn-warning btn-add-cart" id="<?=$produto->getID()?>">Adicionar ao carrinho</button>
                                                         </div>
                                                     </div>
                                             <?php 

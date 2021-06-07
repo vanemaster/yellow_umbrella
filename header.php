@@ -18,15 +18,9 @@
     <link href="../assets/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="../assets/css/sticky-footer.css" rel="stylesheet">
     <link href="../assets/css/custom.css" rel="stylesheet">
-
-    <style>
-    .form-control:focus {
-        border-color: #ffff00;
-        box-shadow: 0px 1px 1px rgba(190, 221, 14, 0.075) inset, 0px 0px 8px rgba(190, 221, 14, 0.5);
-    }
-</style>
   </head>
 
   <body>
@@ -77,6 +71,15 @@
           <?php
             }
           ?>
+        </div>
+        <div class="carrinho-wrapper">
+          <span class="bi-cart4" title="icon name" aria-hidden="true">
+              <?php 
+                if(isset($_SESSION['carrinho'])){
+                  echo "<span class='carrinho-counter'>".count($_SESSION['carrinho'])."</span>";
+                }
+              ?>
+          </span>
         </div>
       </nav>
     </header>

@@ -8,7 +8,7 @@ include_once('MysqlFornecedorDao.php');
 include_once('MysqlEnderecoDao.php');
 include_once('MysqlEstadoDao.php');
 include_once('MysqlClienteDao.php');
-include_once('MysqlPedidoDao.php');
+// include_once('MysqlPedidoDao.php');
 include_once('MysqlEstoqueDao.php');
 
 class MysqlDaofactory extends DaoFactory {
@@ -18,8 +18,8 @@ class MysqlDaofactory extends DaoFactory {
     private $db_name = "web2";
     private $port = "3306";
     private $username = "root";
-    //private $password = "v6a10fr4nc486";
-    private $password = "";
+    private $password = "v6a10fr4nc486";
+    // private $password = "";
     public $conn;
   
     // get the database connection

@@ -2,17 +2,17 @@
     session_start();
     include "../fachada.php";
     include "../header.php";
-    include "../login/verifica.php";
 
     $dao_estados = $factory->getEstadoDao();
     $estados = $dao_estados->buscaTodos();
 ?>
 
 <main role="main" class="container">
-    <h3 class="mb-3">Novo Cliente</h3>
+    <h3 class="mb-3">Preencha seus dados abaixo</h3>
     <div class="row">
         <div class="col-lg-6 col-sm-12">
-            <form action="cadastro_cliente.php" method="post">
+            <form action="<?=$base?>/cliente/cadastro_cliente.php" method="post">
+                <input type="hidden" name="cadastro_externo" value="0"/>
                 <div class="form-group">
                     <label for="inputNome">Nome</label>
                     <input type="text" class="form-control" name="nome" id="inputNome" required>
@@ -66,7 +66,7 @@
                 </fieldset>
                 <div class="form-group">
                     <button type="submit" class="btn btn-warning">Enviar</button>
-                    <a href="view_clientes.php" class="btn btn-light">Cancelar</a>
+                    <a href="<?=$base?>/index/index.php" class="btn btn-light">Cancelar</a>
                 </div>
             </form>
         </div>

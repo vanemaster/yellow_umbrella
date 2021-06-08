@@ -16,11 +16,11 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":rua", $endereco->getRua());
-        $stmt->bindParam(":numero", $endereco->getNumero());
-        $stmt->bindParam(":complemento", $endereco->getComplemento());
-        $stmt->bindParam(":cidade", $endereco->getCidade());
-        $stmt->bindParam(":estado_id", $endereco->getEstadoID());
+        $stmt->bindValue(":rua", $endereco->getRua());
+        $stmt->bindValue(":numero", $endereco->getNumero());
+        $stmt->bindValue(":complemento", $endereco->getComplemento());
+        $stmt->bindValue(":cidade", $endereco->getCidade());
+        $stmt->bindValue(":estado_id", $endereco->getEstadoID());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -41,7 +41,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $endereco->getId());
+        $stmt->bindValue(':id', $endereco->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -60,12 +60,12 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":rua", $endereco->getRua());
-        $stmt->bindParam(":numero", $endereco->getNumero());
-        $stmt->bindParam(":complemento", $endereco->getComplemento());
-        $stmt->bindParam(":cidade", $endereco->getCidade());
-        $stmt->bindParam(":estado_id", $endereco->getEstadoID());
-        $stmt->bindParam(':id', $endereco->getId());
+        $stmt->bindValue(":rua", $endereco->getRua());
+        $stmt->bindValue(":numero", $endereco->getNumero());
+        $stmt->bindValue(":complemento", $endereco->getComplemento());
+        $stmt->bindValue(":cidade", $endereco->getCidade());
+        $stmt->bindValue(":estado_id", $endereco->getEstadoID());
+        $stmt->bindValue(':id', $endereco->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -87,7 +87,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){

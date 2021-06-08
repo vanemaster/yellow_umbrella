@@ -40,26 +40,31 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="<?=$base?>/login/view_login.php">Login</a>
                 </li>
+                <li class="nav-item active">
+                  <a class="nav-link btn btn-outline-dark"" href="<?=$base?>/login/view_cadastro.php">Cadastre-se</a>
+                </li>
             <?php
               }
               if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
+                if(isset($_SESSION["perfil_id"]) && trim($_SESSION["perfil_id"]) == 1){
             ?>
-                <li class="nav-item active">
-                  <a class="nav-link" href="<?=$base?>/cliente/view_clientes.php">Clientes</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="<?=$base?>/fornecedor/view_fornecedores.php">Fornecedores</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
-                </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/cliente/view_clientes.php">Clientes</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/fornecedor/view_fornecedores.php">Fornecedores</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
+                  </li>
             <?php 
+                }
               }
             ?>
           </ul>
@@ -73,13 +78,15 @@
           ?>
         </div>
         <div class="carrinho-wrapper">
-          <span class="bi-cart4" title="icon name" aria-hidden="true">
+          <a href="<?=$base?>/pedido/view_carrinho.php" class="bi-cart4" title="icon name" aria-hidden="true">
+            <span class='carrinho-counter'>
               <?php 
                 if(isset($_SESSION['carrinho'])){
-                  echo "<span class='carrinho-counter'>".count($_SESSION['carrinho'])."</span>";
+                  echo array_sum($_SESSION['carrinho']);
                 }
               ?>
-          </span>
+            </span>
+          </a>
         </div>
       </nav>
     </header>

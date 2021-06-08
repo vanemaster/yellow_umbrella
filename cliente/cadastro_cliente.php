@@ -1,7 +1,13 @@
 <?php
 
 include_once('../fachada.php');
-include_once('../login/verifica.php');
+
+$redirect = '../pedido/view_carrinho.php';
+
+if(!isset($_POST['cadastro_externo'])){
+    include_once('../login/verifica.php');
+    $redirect = 'view_clientes.php';    
+}
 
 $result = true;
 
@@ -45,6 +51,7 @@ if(!isset($_POST['estado_id']) or $_POST['estado_id'] == ''){
 if($result){
     $dao_cliente = $factory->getClienteDao();
     $dao_endereco = $factory->getEnderecoDao();
+    $dao_usuario = $factory->getUsuarioDao();
 
     if(isset($_POST['id']) and $_POST['id'] != ''){
         $cliente = $dao_cliente->buscaPorId($_POST['id']);
@@ -61,20 +68,39 @@ if($result){
         $endereco->setCidade($_POST['cidade']);
         $endereco->setEstadoID($_POST['estado_id']);
         $dao_endereco->altera($endereco);
+
+        $usuario = $dao_usuario->buscaPorId($cliente->getUsuarioID());
+        $cliente->setNome($_POST['nome']);
+        $cliente->setEmail($_POST['email']);
+        $cliente->setSenha(md5($_POST['senha']));
+        $cliente->setPerfilID(2);
+        $dao_usuario->altera($usuario);
         
     }else{
         $endereco = new Endereco(null, $_POST['rua'], $_POST['numero'], $_POST['complemento'],$_POST['cidade'], $_POST['estado_id']);
         $idInseridoEndereco = $dao_endereco->insere($endereco);
 
-        $cliente = new Cliente(null, $_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['cartao_credito'], $idInseridoEndereco);
+        $usuario = new Usuario(null, $_POST["nome"], $_POST["email"], md5($_POST["senha"]), 2);
+        $idInseridoUsuario = $dao_usuario->insere($usuario);
+
+        $cliente = new Cliente(null, $_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['cartao_credito'], $idInseridoEndereco, $idInseridoUsuario);
         $idInseridoCliente = $dao_cliente->insere($cliente);
+
+        // Ja deixa o cliente logado
+        if(isset($_POST['cadastro_externo'])){
+            session_start();
+            $_SESSION["id_usuario"]= $idInseridoUsuario; 
+            $_SESSION["perfil_id"]= 2; 
+            $_SESSION["nome_usuario"] = stripslashes($usuario->getNome());
+        }
+
     }
 
     if(isset($_SESSION['clientes'])){
         unset($_SESSION['clientes']);
     }
 
-    header('Location: view_clientes.php');
+    header('Location:'.$redirect);
 
 }
 

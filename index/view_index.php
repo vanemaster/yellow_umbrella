@@ -11,7 +11,7 @@
 ?>
 <main role="main" class="container">
     <?php
-        if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
+        if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != "" && trim($_SESSION["perfil_id"]) == 1){
     ?>
         <div class="row">
             <div class="col-4 index-cover">

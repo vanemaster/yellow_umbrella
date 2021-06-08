@@ -6,6 +6,7 @@ interface ProdutoDao {
     public function altera($produto);
     public function buscaPorId($id);
     public function buscaPorNome($nome);
+    public function buscaCarrinho($carrinho);
     public function buscaTodos();
 }
 ?>

@@ -43,6 +43,10 @@
     width: 200px;
     height: 200px;
 }
+.imagem-produto.img-thumbnail.img-carrinho{
+    width: 100px;
+    height: 100px;
+}
 .card-body{
     text-align: center;
 }

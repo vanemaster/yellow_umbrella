@@ -10,7 +10,7 @@ class Produto{
     private $produto_quantidade;
 
 
-    public function __construct( $id=null, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome=null, $produto_preco=null, $produto_quantidade=null){
+    public function __construct( $id=null, $nome, $descricao, $imagem, $fornecedor_id=null, $fornecedor_nome=null, $produto_preco=null, $produto_quantidade=null){
         $this->id=$id;
         $this->nome=$nome;
         $this->descricao=$descricao;

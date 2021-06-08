@@ -30,7 +30,8 @@ if($usuario) {
         // TUDO OK! Agora, passa os dados para a sessão e redireciona o usuário 
         $_SESSION["id_usuario"]= $usuario->getId(); 
         $_SESSION["nome_usuario"] = stripslashes($usuario->getNome()); 
-        //$_SESSION["permissao"]= $dados["postar"]; 
+        $_SESSION["perfil_id"] = $usuario->getPerfilID(); 
+        //$_SESSION["permissao"]= $dados["postar"];
         header("Location: ../index/view_index.php"); 
         exit; 
     } else {

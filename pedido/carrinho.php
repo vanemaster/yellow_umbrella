@@ -25,7 +25,7 @@ if(isset($_POST['add_item'])){
 
         $dao->altera_estoque($_POST['id_produto'],$produto->getQuantidade() - 1);
 
-        $result = array('carrinho_itens' => $_SESSION['carrinho'], 'carrinho_qtde' => count($_SESSION['carrinho']));
+        $result = array('carrinho_itens' => $_SESSION['carrinho'], 'carrinho_qtde' => array_sum($_SESSION['carrinho']));
     }else{
         $result = array('erro' => "Estoque indisponível");
     }
@@ -36,7 +36,7 @@ if(isset($_POST['remove_item'])){
         unset($_SESSION['carrinho'][$key]);
     }
 
-    $result = array('carrinho_itens' => $_SESSION['carrinho'], 'carrinho_qtde' => count($_SESSION['carrinho']));
+    $result = array('carrinho_itens' => $_SESSION['carrinho'], 'carrinho_qtde' => array_sum($_SESSION['carrinho']));
 }
 
 echo json_encode($result);

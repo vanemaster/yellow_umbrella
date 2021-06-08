@@ -47,6 +47,10 @@
                     <label for="exampleFormControlInput3">Telefone</label>
                     <input type="text" class="form-control telefone" name="telefone" value="<?=$cliente->getTelefone()?>" id="exampleFormControlInput3">
                 </div>
+                <div class="form-group">
+                    <label for="inputSenha">Senha</label>
+                    <input type="password" class="form-control" name="senha" id="inputSenha">
+                </div>
                 <fieldset class="fieldset-forms">
                     <legend class="legend-fieldset-forms">Endereço</legend>
                     <div class="form-group">

@@ -24,7 +24,7 @@ include_once "../header.php";
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-warning">Enviar</button>
-                    <a href="../index/index.php" class="btn btn-light">Cancelar</a>
+                    <a href="<?=$base?>/login/view_cadastro.php" class="btn btn-light">Cadastre-se</a>
                 </div>
             </form>
         </div>

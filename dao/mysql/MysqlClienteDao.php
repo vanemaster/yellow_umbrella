@@ -10,8 +10,8 @@ class MysqlClienteDao extends DAO implements ClienteDao {
     public function insere($cliente) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (nome, telefone, email, cartao_credito, endereco_id) VALUES" .
-        " (:nome, :telefone, :email, :cartao_credito, :endereco_id)";
+        " (nome, telefone, email, cartao_credito, endereco_id, usuario_id) VALUES" .
+        " (:nome, :telefone, :email, :cartao_credito, :endereco_id, :usuario_id)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -21,6 +21,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $stmt->bindParam(":email", $cliente->getEmail());
         $stmt->bindParam(":telefone", $cliente->getTelefone());
         $stmt->bindParam(":endereco_id", $cliente->getEnderecoID());
+        $stmt->bindParam(":usuario_id", $cliente->getUsuarioID());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -31,8 +32,6 @@ class MysqlClienteDao extends DAO implements ClienteDao {
     }
 
     public function remove($cliente) {
-
-        $query_prod = "DELETE FROM endereco WHERE endereco_id=".$cliente->getEnderecoID();
 
         $stmt = $this->conn->prepare( $query_prod);
         $stmt->execute();
@@ -56,7 +55,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
     public function altera($cliente) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET nome = :nome, telefone = :telefone, email = :email, cartao_credito = :cartao_credito, endereco_id = :endereco_id" .
+        " SET nome = :nome, telefone = :telefone, email = :email, cartao_credito = :cartao_credito, endereco_id = :endereco_id, usuario_id = :usuario_id" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -67,6 +66,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $stmt->bindParam(":email", $cliente->getEmail());
         $stmt->bindParam(":cartao_credito", $cliente->getCartaoCredito());
         $stmt->bindParam(":endereco_id", $cliente->getEnderecoID());
+        $stmt->bindParam(":usuario_id", $cliente->getUsuarioID());
         $stmt->bindParam(':id', $cliente->getId());
 
         // execute the query
@@ -80,7 +80,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT
-                    id, nome, telefone, email, cartao_credito, endereco_id
+                    id, nome, telefone, email, cartao_credito, endereco_id, usuario_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -96,14 +96,14 @@ class MysqlClienteDao extends DAO implements ClienteDao {
             $clientes = null;
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row) {
-                $clientes = new Cliente($row['id'],$row['nome'], $row['telefone'], $row['email'], $row['cartao_credito'], $row['endereco_id']);
+                $clientes = new Cliente($row['id'],$row['nome'], $row['telefone'], $row['email'], $row['cartao_credito'], $row['endereco_id'], $row['usuario_id']);
             }
         }else{
             $clientes = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
                 extract($row);
-                $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id); 
+                $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id, $usuario_id); 
                 $clientes[] = $cliente;
             }
         }
@@ -116,7 +116,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $cliente = null;
 
         $query = "SELECT
-                    id, nome, telefone, email, cartao_credito, endereco_id
+                    id, nome, telefone, email, cartao_credito, endereco_id, usuario_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -129,7 +129,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id); 
+            $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id, $usuario_id); 
             $clientes[] = $cliente;
         }
         return $clientes;
@@ -140,7 +140,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $cliente = null;
 
         $query = "SELECT
-                    id, nome, telefone, email, cartao_credito, endereco_id
+                    id, nome, telefone, email, cartao_credito, endereco_id, usuario_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -154,7 +154,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $cliente = new Cliente($row['id'],$row['nome'], $row['telefone'], $row['email'], $row['cartao_credito'], $row['endereco_id']);
+            $cliente = new Cliente($row['id'],$row['nome'], $row['telefone'], $row['email'], $row['cartao_credito'], $row['endereco_id'], $row['usuario_id']);
         } 
      
         return $cliente;
@@ -163,7 +163,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, nome, telefone, email, cartao_credito, endereco_id
+                    id, nome, telefone, email, cartao_credito, endereco_id, usuario_id
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -175,7 +175,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id); 
+            $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id, $usuario_id); 
             $clientes[] = $cliente;
         }
         return $clientes;

@@ -69,6 +69,37 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         return false;
     }
 
+    public function buscaCarrinho($carrinho) {
+        
+        $result = [];
+
+        foreach ($carrinho as $id => $qtde){
+            $query = "SELECT
+                    p.id, p.nome, p.descricao, p.imagem, e.preco as produto_preco
+                FROM
+                    " . $this->table_name . " p
+                LEFT JOIN estoque e on (e.produto_id = p.id)
+                WHERE
+                    p.id = ?
+                LIMIT
+                    1 OFFSET 0";
+
+            $stmt = $this->conn->prepare( $query );
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+
+            $produto = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if($row) {
+                $produto = new Produto($row['id'],$row['nome'], $row['descricao'], $row['imagem'], null, null, $row['produto_preco'], $qtde);
+                array_push($result, $produto);
+            }
+        }
+     
+        return $result;
+    }
+
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT

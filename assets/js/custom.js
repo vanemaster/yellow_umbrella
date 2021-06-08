@@ -24,6 +24,9 @@ $(document).ready(function(){
         success: function (response) {
           console.log('response');
           console.log(response);
+          button.html('Adicionado!').removeClass('btn-warning').addClass('btn-success');
+          var json_response = $.parseJSON(response);
+          $('.carrinho-counter').html(json_response.carrinho_qtde);
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);

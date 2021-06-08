@@ -6,13 +6,20 @@ CREATE TABLE `cliente` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cartao_credito` varchar(255) NOT NULL,
   `endereco_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
   KEY `endereco_id` (`endereco_id`),
-  CONSTRAINT `cliente_ibfk_2` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `cliente_ibfk_2` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `cliente_ibfk_4` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `cliente` (`id`, `nome`, `telefone`, `email`, `cartao_credito`, `endereco_id`) VALUES
-(1,	'Cliente 1',	'(56) 4654-646',	'teste@testecliente',	'8979878979',	5);
+INSERT INTO `cliente` (`id`, `nome`, `telefone`, `email`, `cartao_credito`, `endereco_id`, `usuario_id`) VALUES
+(1,	'Cliente 1',	'(56) 4654-646',	'teste@testecliente',	'8979878979',	5,	NULL),
+(3,	'Cliente Externo',	'(98) 78979-7998',	'teste@testeclienteexterno',	'564654646',	8,	7),
+(4,	'João',	'(65) 46546-4646',	'teste@joao',	'654564646',	9,	8),
+(5,	'Maria',	'(23) 13213-1313',	'teste@testemaria',	'9797979',	10,	9);
 
 DROP TABLE IF EXISTS `endereco`;
 CREATE TABLE `endereco` (
@@ -28,7 +35,10 @@ CREATE TABLE `endereco` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `endereco` (`id`, `rua`, `numero`, `complemento`, `cidade`, `estado_id`) VALUES
-(5,	'Rua das Camélias teste',	588,	'apto 13',	'Caxias do Sul',	21);
+(5,	'Rua das Camélias teste',	588,	'apto 13',	'Caxias do Sul',	21),
+(8,	'Rua das Bromélias',	987,	'ap 33',	'Caxias do Sul',	21),
+(9,	'Rua das Bromélias',	32132,	'apto 13',	'Caxias do Sul',	21),
+(10,	'Rua das Bromélias',	9879,	'ap 33',	'Caxias do Sul',	21);
 
 DROP TABLE IF EXISTS `estados`;
 CREATE TABLE `estados` (
@@ -79,7 +89,7 @@ CREATE TABLE `estoque` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
-(8,	20,	45.23,	9);
+(8,	13,	45.23,	9);
 
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
@@ -165,9 +175,12 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`email`),
   KEY `perfil_id` (`perfil_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`, `perfil_id`) VALUES
-(3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa',	NULL);
+(3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa',	1),
+(7,	'teste@testeclienteexterno',	'698dc19d489c4e4db73e28a713eab07b',	'Cliente Externo',	2),
+(8,	'teste@joao',	'698dc19d489c4e4db73e28a713eab07b',	'João',	2),
+(9,	'teste@testemaria',	'698dc19d489c4e4db73e28a713eab07b',	'Maria',	2);
 
--- 2021-06-06 21:06:52
+-- 2021-06-08 01:33:05

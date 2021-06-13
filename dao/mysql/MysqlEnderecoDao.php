@@ -10,8 +10,8 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
     public function insere($endereco) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (rua, numero, complemento, cidade, estado_id) VALUES" .
-        " (:rua, :numero, :complemento, :cidade, :estado_id)";
+        " (rua, numero, complemento, bairro, cep, cidade, estado_id) VALUES" .
+        " (:rua, :numero, :complemento, :bairro, :cep, :cidade, :estado_id)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -19,6 +19,8 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         $stmt->bindValue(":rua", $endereco->getRua());
         $stmt->bindValue(":numero", $endereco->getNumero());
         $stmt->bindValue(":complemento", $endereco->getComplemento());
+        $stmt->bindValue(":bairro", $endereco->getBairro());
+        $stmt->bindValue(":cep", $endereco->getCep());
         $stmt->bindValue(":cidade", $endereco->getCidade());
         $stmt->bindValue(":estado_id", $endereco->getEstadoID());
 
@@ -32,10 +34,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
 
     public function remove($endereco) {
 
-        $stmt = $this->conn->prepare( $query_prod);
-        $stmt->execute();
-
-        $query = "DELETE FROM " . $this->table_name . 
+       $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -54,7 +53,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
     public function altera($endereco) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET rua = :rua, numero = :numero, complemento = :complemento, cidade = :cidade, estado_id = :estado_id" .
+        " SET rua = :rua, numero = :numero, complemento = :complemento, bairro = :bairro, cep = :cep, cidade = :cidade, estado_id = :estado_id" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -63,6 +62,8 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         $stmt->bindValue(":rua", $endereco->getRua());
         $stmt->bindValue(":numero", $endereco->getNumero());
         $stmt->bindValue(":complemento", $endereco->getComplemento());
+        $stmt->bindValue(":bairro", $endereco->getBairro());
+        $stmt->bindValue(":cep", $endereco->getCep());
         $stmt->bindValue(":cidade", $endereco->getCidade());
         $stmt->bindValue(":estado_id", $endereco->getEstadoID());
         $stmt->bindValue(':id', $endereco->getId());
@@ -78,7 +79,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT
-                    id, rua, numero, complemento, cidade, estado_id
+                    id, rua, numero, complemento, bairro, cep, cidade, estado_id
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -94,14 +95,14 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
             $enderecos = null;
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row) {
-                $enderecos = new Endereco($row['id'],$row['rua'], $row['numero'], $row['complemento'], $row['cidade'], $row['estado_id']);
+                $enderecos = new Endereco($row['id'],$row['rua'], $row['numero'], $row['complemento'], $row['bairro'], $row['cep'], $row['cidade'], $row['estado_id']);
             }
         }else{
             $enderecos = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
                 extract($row);
-                $endereco = new Endereco($id,$rua,$numero,$complemento,$cidade,$estado_id); 
+                $endereco = new Endereco($id,$rua,$numero,$complemento,$bairo,$cep,$cidade,$estado_id); 
                 $enderecos[] = $endereco;
             }
         }
@@ -112,7 +113,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, rua, numero, complemento, cidade, estado_id
+                    id, rua, numero, complemento, bairro, cep, cidade, estado_id
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -124,7 +125,7 @@ class MysqlEnderecoDao extends DAO implements EnderecoDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $endereco = new Endereco($id,$rua,$numero,$complemento,$cidade,$estado_id); 
+            $endereco = new Endereco($id,$rua,$numero,$complemento,$bairro,$cep,$cidade,$estado_id); 
             $enderecos[] = $endereco;
         }
         return $enderecos;

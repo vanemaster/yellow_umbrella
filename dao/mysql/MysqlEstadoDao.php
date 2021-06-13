@@ -21,7 +21,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){

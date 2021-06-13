@@ -18,10 +18,10 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":email", $usuario->getEmail());
-        $stmt->bindParam(":senha", $usuario->getSenha());
-        $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(":perfil_id", $usuario->getPerfilID());
+        $stmt->bindValue(":email", $usuario->getEmail());
+        $stmt->bindValue(":senha", $usuario->getSenha());
+        $stmt->bindValue(":nome", $usuario->getNome());
+        $stmt->bindValue(":perfil_id", $usuario->getPerfilID());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -38,7 +38,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $usuario->getId());
+        $stmt->bindValue(':id', $usuario->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -57,11 +57,11 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":email", $usuario->getEmail());
-        $stmt->bindParam(":senha", $usuario->getSenha());
-        $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(":perfil_id", $usuario->getPerfilID());
-        $stmt->bindParam(':id', $usuario->getId());
+        $stmt->bindValue(":email", $usuario->getEmail());
+        $stmt->bindValue(":senha", $usuario->getSenha());
+        $stmt->bindValue(":nome", $usuario->getNome());
+        $stmt->bindValue(":perfil_id", $usuario->getPerfilID());
+        $stmt->bindValue(':id', $usuario->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -83,7 +83,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){
@@ -120,7 +120,7 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/yellow_umbrella/dao/DAO.php');
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $email);
+        $stmt->bindValue(1, $email);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

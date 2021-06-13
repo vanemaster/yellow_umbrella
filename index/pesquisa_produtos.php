@@ -1,6 +1,6 @@
 <?php
 include_once("../fachada.php");
-
+session_start();
 $result = true;
 $_SESSION["message"] = "";
 
@@ -10,7 +10,6 @@ if(!isset($_POST["pesquisa"]) or trim($_POST["pesquisa"]) == ""){
 
 if(isset($_POST["limpar_pesquisa"])){
     $result = false;
-    unset($_SESSION["produtos_index"]);
 }
 
 $dao = $factory->getProdutoDao();

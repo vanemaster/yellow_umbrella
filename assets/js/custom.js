@@ -22,11 +22,11 @@ $(document).ready(function(){
         type: "post",
         data: {"add_item":true, "id_produto":button.attr('id')} ,
         success: function (response) {
-          console.log('response');
-          console.log(response);
-          button.html('Adicionado!').removeClass('btn-warning').addClass('btn-success');
           var json_response = $.parseJSON(response);
           $('.carrinho-counter').html(json_response.carrinho_qtde);
+          
+          button.html('Adicionado!').removeClass('btn-warning').addClass('btn-success');
+          setTimeout(function() {  button.html('Adicionar ao carrinho').removeClass('btn-success').addClass('btn-warning'); }, 1000);  
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(textStatus, errorThrown);

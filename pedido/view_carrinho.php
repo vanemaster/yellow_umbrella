@@ -23,9 +23,15 @@
                 }
             ?>
         </div>
-        <div class="col-lg-12 col-sm-12">
-            <a href="checkout_pedido.php" class="btn btn-success mb-2">Finalizar Pedido</a>
-        </div>
+        <?php
+            if(count($produtos)){
+        ?>
+                <div class="col-lg-12 col-sm-12">
+                    <a href="view_checkout_pedido.php" class="btn btn-success mb-2">Finalizar Pedido</a>
+                </div>
+        <?php 
+            }
+        ?>
         <div class="col-12">
         <table class="table table-responsive">
             <thead class="thead-dark">
@@ -55,7 +61,13 @@
                                     $preco_total = $preco_total + $item->getProdutoQuantidade() * $item->getProdutoPreco();
                                 ?>
                             </td>
-                            <td><a href="exclui_produto.php?id=<?=$item->getID()?>" id="excluiProduto" class="btn btn-danger" onclick="return confirm('Você quer mesmo remover este produto?')">Excluir</button></td>
+                            <td>
+                                <form action="<?=$base?>/pedido/carrinho.php" method="POST">
+                                    <input type="hidden" name="id_produto" value="<?=$item->getID()?>"/>
+                                    <input type="hidden" name="remove_item" value="true"/>
+                                    <button type="submit" id="excluiProduto" class="btn btn-danger" onclick="return confirm('Você quer mesmo remover este item?')">Excluir</button>
+                                </form>
+                            </td>
                         </tr>
             <?php 
                     }

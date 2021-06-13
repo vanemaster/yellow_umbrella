@@ -16,10 +16,10 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":nome", $fornecedor->getNome());
-        $stmt->bindParam(":descricao", $fornecedor->getDescricao());
-        $stmt->bindParam(":email", $fornecedor->getEmail());
-        $stmt->bindParam(":telefone", $fornecedor->getTelefone());
+        $stmt->bindValue(":nome", $fornecedor->getNome());
+        $stmt->bindValue(":descricao", $fornecedor->getDescricao());
+        $stmt->bindValue(":email", $fornecedor->getEmail());
+        $stmt->bindValue(":telefone", $fornecedor->getTelefone());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -42,7 +42,7 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $fornecedor->getId());
+        $stmt->bindValue(':id', $fornecedor->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -61,11 +61,11 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":nome", $fornecedor->getNome());
-        $stmt->bindParam(":descricao", $fornecedor->getDescricao());
-        $stmt->bindParam(":email", $fornecedor->getEmail());
-        $stmt->bindParam(":telefone", $fornecedor->getTelefone());
-        $stmt->bindParam(':id', $fornecedor->getId());
+        $stmt->bindValue(":nome", $fornecedor->getNome());
+        $stmt->bindValue(":descricao", $fornecedor->getDescricao());
+        $stmt->bindValue(":email", $fornecedor->getEmail());
+        $stmt->bindValue(":telefone", $fornecedor->getTelefone());
+        $stmt->bindValue(':id', $fornecedor->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -87,7 +87,7 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){
@@ -147,7 +147,7 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
+        $stmt->bindValue(1, $email);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

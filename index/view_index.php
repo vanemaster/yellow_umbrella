@@ -11,7 +11,7 @@
 ?>
 <main role="main" class="container">
     <?php
-        if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != "" && trim($_SESSION["perfil_id"]) == 1){
+        if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != "" && isset($_SESSION["perfil_id"]) && trim($_SESSION["perfil_id"]) == 1){
     ?>
         <div class="row">
             <div class="col-4 index-cover">
@@ -46,7 +46,7 @@
                         </form>
                         <form class="form-search-index" action="<?=$base?>/index/pesquisa_produtos.php" method="POST">
                             <input type="hidden" name="limpar_pesquisa" value="0"/>
-                            <a href="" class="btn btn-outline-dark my-2 my-sm-0" type="submit">Limpar Pesquisa</a>
+                            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Limpar Pesquisa</button>
                         </form>
                     </div>
                 </div>

@@ -8,7 +8,8 @@ include_once('MysqlFornecedorDao.php');
 include_once('MysqlEnderecoDao.php');
 include_once('MysqlEstadoDao.php');
 include_once('MysqlClienteDao.php');
-// include_once('MysqlPedidoDao.php');
+include_once('MysqlPedidoDao.php');
+include_once('MysqlItemPedidoDao.php');
 include_once('MysqlEstoqueDao.php');
 
 class MysqlDaofactory extends DaoFactory {
@@ -76,6 +77,11 @@ class MysqlDaofactory extends DaoFactory {
     public function getPedidoDao() {
 
         return new MysqlPedidoDao($this->getConnection());
+
+    }
+    public function getItemPedidoDao() {
+
+        return new MysqlItemPedidoDao($this->getConnection());
 
     }
 }

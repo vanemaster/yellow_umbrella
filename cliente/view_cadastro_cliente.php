@@ -13,6 +13,13 @@
     <div class="row">
         <div class="col-lg-6 col-sm-12">
             <form action="cadastro_cliente.php" method="post">
+                <?php 
+                    if(isset($_SESSION['perfil_id']) && trim($_SESSION['perfil_id']) == "2"){
+                ?>
+                        <input type="hidden" name="cadastro_externo" value="0"/>
+                <?php 
+                    }
+                ?>
                 <div class="form-group">
                     <label for="inputNome">Nome</label>
                     <input type="text" class="form-control" name="nome" id="inputNome" required>
@@ -46,6 +53,14 @@
                     <div class="form-group">
                         <label for="inputComplemento">Complemento</label>
                         <input type="text" class="form-control" name="complemento" id="inputComplemento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBairro">Bairro</label>
+                        <input type="text" class="form-control" name="bairro" id="inputBairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCep">Cep</label>
+                        <input type="text" class="form-control" name="cep" id="inputCep" required>
                     </div>
                     <div class="form-group">
                         <label for="inputCidade">Cidade</label>

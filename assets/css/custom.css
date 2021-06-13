@@ -76,7 +76,20 @@
 .img-jumbotron{
     width: 200px;
 }
-
+.checkout-pedido-dados{
+    padding-left: 15px;
+}
+.dados-cliente{
+    display: flex;
+    border: 1px solid #c2c2c2;
+    padding-left: 0px;
+}
+.dados-cliente div{
+    flex-direction: row;
+}
+.dados-cliente div:first-child{
+    background-color: #c2c2c2;
+}
 @media only screen and (min-width: 300px) and (max-width:768px) {
     .index-cover img{
         max-width: 200px;

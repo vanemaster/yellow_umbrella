@@ -4,20 +4,26 @@
     include "../header.php";
     include "../login/verifica.php";
 
-    $id = @$_GET["id"];
-    
     $dao_cliente = $factory->getClienteDao();
-    $cliente = $dao_cliente->buscaPorId($id);
+
+    if(isset($_SESSION["perfil_id"]) && trim($_SESSION["perfil_id"]) == "2"){
+        $cliente = $dao_cliente->buscaPorUsuarioId($_SESSION['id_usuario']);
+        $title = "Altere seus dados";
+    }else{
+        $id = @$_GET["id"];
+        $cliente = $dao_cliente->buscaPorId($id);
+        $title = "Alterar Cliente";
+    }
 
     if($cliente==null) {
-        $cliente = new Cliente(null,null,null,null);
+        $cliente = new Cliente(null,null,null,null,null,null,null);
     }
     
     $dao_endereco = $factory->getEnderecoDao();
     $endereco = $dao_endereco->buscaPorId($cliente->getEnderecoID());
 
     if($endereco==null) {
-        $endereco = new Endereco(null,null,null,null,null,null);
+        $endereco = new Endereco(null,null,null,null,null,null,null,null);
     }
 
     $dao_estados = $factory->getEstadoDao();
@@ -26,11 +32,18 @@
 ?>
 
 <main role="main" class="container">
-    <h3 class="mb-3">Alterar Cliente</h3>
+    <h3 class="mb-3"><?=$title?></h3>
     <div class="row">
         <div class="col-lg-6 col-sm-12">  
             <form action="cadastro_cliente.php" method="post">
                 <input type="hidden" name="id" value="<?=$cliente->getId()?>"/>
+                <?php 
+                    if(isset($_SESSION['perfil_id']) && trim($_SESSION['perfil_id']) == "2"){
+                ?>
+                        <input type="hidden" name="cadastro_externo" value="0"/>
+                <?php 
+                    }
+                ?>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Nome</label>
                     <input type="text" value="<?=$cliente->getNome()?>" class="form-control" name="nome" id="exampleFormControlInput1">
@@ -64,6 +77,14 @@
                     <div class="form-group">
                         <label for="inputComplemento">Complemento</label>
                         <input type="text" class="form-control" name="complemento" value="<?=$endereco->getComplemento()?>" id="inputComplemento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBairro">Bairro</label>
+                        <input type="text" class="form-control" name="bairro" value="<?=$endereco->getBairro()?>" id="inputBairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCep">Cep</label>
+                        <input type="text" class="form-control" name="cep" value="<?=$endereco->getCep()?>" id="inputCep" required>
                     </div>
                     <div class="form-group">
                         <label for="inputCidade">Cidade</label>

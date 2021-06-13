@@ -40,11 +40,23 @@ if(!isset($_POST['complemento']) or $_POST['complemento'] == ''){
     $result = false;
 }
 
+if(!isset($_POST['bairro']) or $_POST['bairro'] == ''){
+    $result = false;
+}
+
+if(!isset($_POST['cep']) or $_POST['cep'] == ''){
+    $result = false;
+}
+
 if(!isset($_POST['cidade']) or $_POST['cidade'] == ''){
     $result = false;
 }
 
 if(!isset($_POST['estado_id']) or $_POST['estado_id'] == ''){
+    $result = false;
+}
+
+if(!isset($_POST['senha']) or $_POST['senha'] == ''){
     $result = false;
 }
 
@@ -65,19 +77,21 @@ if($result){
         $endereco->setRua($_POST['rua']);
         $endereco->setNumero($_POST['numero']);
         $endereco->setComplemento($_POST['complemento']);
+        $endereco->setBairro($_POST['bairro']);
+        $endereco->setCep($_POST['cep']);
         $endereco->setCidade($_POST['cidade']);
         $endereco->setEstadoID($_POST['estado_id']);
         $dao_endereco->altera($endereco);
 
         $usuario = $dao_usuario->buscaPorId($cliente->getUsuarioID());
-        $cliente->setNome($_POST['nome']);
-        $cliente->setEmail($_POST['email']);
-        $cliente->setSenha(md5($_POST['senha']));
-        $cliente->setPerfilID(2);
+        $usuario->setNome($_POST['nome']);
+        $usuario->setEmail($_POST['email']);
+        $usuario->setSenha(md5($_POST['senha']));
+        $usuario->setPerfilID(2);
         $dao_usuario->altera($usuario);
         
     }else{
-        $endereco = new Endereco(null, $_POST['rua'], $_POST['numero'], $_POST['complemento'],$_POST['cidade'], $_POST['estado_id']);
+        $endereco = new Endereco(null, $_POST['rua'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'],$_POST['cep'],$_POST['cidade'], $_POST['estado_id']);
         $idInseridoEndereco = $dao_endereco->insere($endereco);
 
         $usuario = new Usuario(null, $_POST["nome"], $_POST["email"], md5($_POST["senha"]), 2);

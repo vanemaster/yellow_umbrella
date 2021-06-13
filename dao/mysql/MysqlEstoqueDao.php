@@ -16,9 +16,9 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":quantidade", $estoque->getQuantidade());
-        $stmt->bindParam(":preco", $estoque->getPreco());
-        $stmt->bindParam(":produto_id", $estoque->getProduto());
+        $stmt->bindValue(":quantidade", $estoque->getQuantidade());
+        $stmt->bindValue(":preco", $estoque->getPreco());
+        $stmt->bindValue(":produto_id", $estoque->getProduto());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -35,7 +35,7 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $estoque->getId());
+        $stmt->bindValue(':id', $estoque->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -54,10 +54,10 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":quantidade", $estoque->getQuantidade());
-        $stmt->bindParam(":preco", $estoque->getPreco());
-        $stmt->bindParam(":produto_id", $estoque->getProduto());
-        $stmt->bindParam(':id', $estoque->getId());
+        $stmt->bindValue(":quantidade", $estoque->getQuantidade());
+        $stmt->bindValue(":preco", $estoque->getPreco());
+        $stmt->bindValue(":produto_id", $estoque->getProduto());
+        $stmt->bindValue(':id', $estoque->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -76,8 +76,8 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":quantidade", $qtde);
-        $stmt->bindParam(':produto_id', $produto_id);
+        $stmt->bindValue(":quantidade", $qtde);
+        $stmt->bindValue(':produto_id', $produto_id);
 
         // execute the query
         if($stmt->execute()){
@@ -100,7 +100,7 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){
@@ -137,7 +137,7 @@ class MysqlEstoqueDao extends DAO implements EstoqueDao {
                     1 OFFSET 0";
 
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $produto_id);
+        $stmt->bindValue(1, $produto_id);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -16,15 +16,15 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":nome", $cliente->getNome());
-        $stmt->bindParam(":cartao_credito", $cliente->getCartaoCredito());
-        $stmt->bindParam(":email", $cliente->getEmail());
-        $stmt->bindParam(":telefone", $cliente->getTelefone());
-        $stmt->bindParam(":endereco_id", $cliente->getEnderecoID());
-        $stmt->bindParam(":usuario_id", $cliente->getUsuarioID());
+        $stmt->bindValue(":nome", $cliente->getNome());
+        $stmt->bindValue(":cartao_credito", $cliente->getCartaoCredito());
+        $stmt->bindValue(":email", $cliente->getEmail());
+        $stmt->bindValue(":telefone", $cliente->getTelefone());
+        $stmt->bindValue(":endereco_id", $cliente->getEnderecoID());
+        $stmt->bindValue(":usuario_id", $cliente->getUsuarioID());
 
         if($stmt->execute()){
-            return $this->conn->lastInsertId();;
+            return $this->conn->lastInsertId();
         }else{
             return -1;
         }
@@ -33,16 +33,13 @@ class MysqlClienteDao extends DAO implements ClienteDao {
 
     public function remove($cliente) {
 
-        $stmt = $this->conn->prepare( $query_prod);
-        $stmt->execute();
-
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $cliente->getId());
+        $stmt->bindValue(':id', $cliente->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -61,13 +58,13 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":nome", $cliente->getNome());
-        $stmt->bindParam(":telefone", $cliente->getTelefone());
-        $stmt->bindParam(":email", $cliente->getEmail());
-        $stmt->bindParam(":cartao_credito", $cliente->getCartaoCredito());
-        $stmt->bindParam(":endereco_id", $cliente->getEnderecoID());
-        $stmt->bindParam(":usuario_id", $cliente->getUsuarioID());
-        $stmt->bindParam(':id', $cliente->getId());
+        $stmt->bindValue(":nome", $cliente->getNome());
+        $stmt->bindValue(":telefone", $cliente->getTelefone());
+        $stmt->bindValue(":email", $cliente->getEmail());
+        $stmt->bindValue(":cartao_credito", $cliente->getCartaoCredito());
+        $stmt->bindValue(":endereco_id", $cliente->getEnderecoID());
+        $stmt->bindValue(":usuario_id", $cliente->getUsuarioID());
+        $stmt->bindValue(':id', $cliente->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -75,6 +72,40 @@ class MysqlClienteDao extends DAO implements ClienteDao {
         }    
 
         return false;
+    }
+
+    public function buscaPorUsuarioId($id, $pesquisa=null) {
+        
+        $query = "SELECT
+                    id, nome, telefone, email, cartao_credito, endereco_id, usuario_id
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    usuario_id = ?
+                LIMIT
+                    1 OFFSET 0";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+     
+        if(!$pesquisa){
+            $clientes = null;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row) {
+                $clientes = new Cliente($row['id'],$row['nome'], $row['telefone'], $row['email'], $row['cartao_credito'], $row['endereco_id'], $row['usuario_id']);
+            }
+        }else{
+            $clientes = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $cliente = new Cliente($id,$nome,$telefone,$email,$cartao_credito, $endereco_id, $usuario_id); 
+                $clientes[] = $cliente;
+            }
+        }
+     
+        return $clientes;
     }
 
     public function buscaPorId($id, $pesquisa=null) {
@@ -89,7 +120,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
      
         if(!$pesquisa){
@@ -149,7 +180,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
+        $stmt->bindValue(1, $email);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

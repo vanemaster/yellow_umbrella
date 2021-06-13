@@ -16,10 +16,10 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":nome", $produto->getNome());
-        $stmt->bindParam(":descricao", $produto->getDescricao());
-        $stmt->bindParam(":imagem", $produto->getImagem());
-        $stmt->bindParam(":fornecedor_id", $produto->getFornecedor());
+        $stmt->bindValue(":nome", $produto->getNome());
+        $stmt->bindValue(":descricao", $produto->getDescricao());
+        $stmt->bindValue(":imagem", $produto->getImagem());
+        $stmt->bindValue(":fornecedor_id", $produto->getFornecedor());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -55,11 +55,11 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":nome", $produto->getNome());
-        $stmt->bindParam(":descricao", $produto->getDescricao());
-        $stmt->bindParam(":imagem", $produto->getImagem());
-        $stmt->bindParam(":fornecedor_id", $produto->getFornecedor());
-        $stmt->bindParam(':id', $produto->getId());
+        $stmt->bindValue(":nome", $produto->getNome());
+        $stmt->bindValue(":descricao", $produto->getDescricao());
+        $stmt->bindValue(":imagem", $produto->getImagem());
+        $stmt->bindValue(":fornecedor_id", $produto->getFornecedor());
+        $stmt->bindValue(':id', $produto->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -85,7 +85,7 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
                     1 OFFSET 0";
 
             $stmt = $this->conn->prepare( $query );
-            $stmt->bindParam(1, $id);
+            $stmt->bindValue(1, $id);
             $stmt->execute();
 
             $produto = null;
@@ -103,30 +103,32 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
     public function buscaPorId($id, $pesquisa=null) {
         
         $query = "SELECT
-                    id, nome, descricao, imagem, fornecedor_id
+                    p.id, p.nome, p.descricao, p.imagem, p.fornecedor_id, f.nome as fornecedor_nome, e.preco as produto_preco
                 FROM
-                    " . $this->table_name . "
+                    " . $this->table_name . " p
+                LEFT JOIN estoque e on (e.produto_id = p.id)
+                LEFT JOIN fornecedor f on (fornecedor_id = f.id)
                 WHERE
-                    id = ?
+                    p.id = ?
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id);
         $stmt->execute();
 
         if(!$pesquisa){
             $produtos = null;
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row) {
-                $produtos = new Produto($row['id'],$row['nome'], $row['descricao'], $row['imagem'], $row['fornecedor_id']);
+                $produtos = new Produto($row['id'],$row['nome'], $row['descricao'], $row['imagem'], $row['fornecedor_id'], $row['fornecedor_nome'], $row['produto_preco']);
             }
         }else{
             $produtos = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
                 extract($row);
-                $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome); 
+                $produto = new Produto($id, $nome, $descricao, $imagem, $fornecedor_id, $fornecedor_nome, $produto_preco); 
                 $produtos[] = $produto;
             }
         }

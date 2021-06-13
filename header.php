@@ -41,29 +41,38 @@
                   <a class="nav-link" href="<?=$base?>/login/view_login.php">Login</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link btn btn-outline-dark"" href="<?=$base?>/login/view_cadastro.php">Cadastre-se</a>
+                  <a class="nav-link btn btn-outline-dark"" href="<?=$base?>/login/view_cadastro_cliente.php">Cadastre-se</a>
                 </li>
             <?php
               }
               if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
-                if(isset($_SESSION["perfil_id"]) && trim($_SESSION["perfil_id"]) == 1){
+                if(isset($_SESSION["perfil_id"])){
+                  if(trim($_SESSION["perfil_id"]) == "1"){
+            ?>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/cliente/view_clientes.php">Clientes</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/fornecedor/view_fornecedores.php">Fornecedores</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
+                    </li>
+            <?php 
+                  }  
+                }
+                if(trim($_SESSION["perfil_id"]) == "2"){
             ?>
                   <li class="nav-item active">
-                    <a class="nav-link" href="<?=$base?>/cliente/view_clientes.php">Clientes</a>
+                    <a class="nav-link" href="<?=$base?>/cliente/view_editar_cliente.php">Alterar seus dados</a>
                   </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="<?=$base?>/produto/view_produtos.php">Produtos</a>
-                  </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="<?=$base?>/fornecedor/view_fornecedores.php">Fornecedores</a>
-                  </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
-                  </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
-                  </li>
-            <?php 
+            <?php
                 }
               }
             ?>
@@ -72,13 +81,13 @@
             if(isset($_SESSION["id_usuario"]) && trim($_SESSION["id_usuario"]) != ""){
           ?>
             <span class='greetings-user'>Olá <?=$_SESSION["nome_usuario"]?></span>
-            <a class="btn btn-danger btn-logout" href="<?=$base?>/login/executa_logout.php" onclick="return confirm('Você quer mesmo sair?')">Sair</a>
+            <a class="btn btn-secondary btn-logout" href="<?=$base?>/login/executa_logout.php" onclick="return confirm('Você quer mesmo sair?')">Sair</a>
           <?php
             }
           ?>
         </div>
         <div class="carrinho-wrapper">
-          <a href="<?=$base?>/pedido/view_carrinho.php" class="bi-cart4" title="icon name" aria-hidden="true">
+          <a href="<?=$base?>/pedido/view_carrinho.php" class="bi-cart4 btn btn-dark ml-3" style="font-size:1.25rem;" title="icon name" aria-hidden="true">
             <span class='carrinho-counter'>
               <?php 
                 if(isset($_SESSION['carrinho'])){

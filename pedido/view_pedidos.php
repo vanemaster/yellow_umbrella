@@ -1,6 +1,6 @@
 <?php
-    session_start();
     include "../fachada.php";
+    session_start();
     include "../header.php";
     include "../login/verifica.php";
 
@@ -29,40 +29,45 @@
             </form>
         </div>
         <div class="col-12">
-        <table class="table table-responsive">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Numero</th>
-                <th scope="col">Data do pedido</th>
-                <th scope="col">Data da entrega</th>
-                <th scope="col">Situação</th>
-                <th scope="col">Alterar</th>
-                <th scope="col">Excluir</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-                if($pedidos){
-                    foreach($pedidos as $item){
-            ?>
-                <tr>
-                <th scope="row"><?=$item->getID()?></th>
-                <td><?=$item->getNumero()?></td>
-                <td><?=$item->getDataPedido()?></td>
-                <td><?=$item->getDataEntrega()?></td>
-                <td><?=$item->getSituacao()?></td>
-                <td><a href="view_editar_pedido.php?id=<?=$item->getID()?>" class="btn btn-dark">Alterar</button></td>
-                <td><a href="exclui_pedido.php?id=<?=$item->getID()?>" id="excluiPedido" class="btn btn-danger" onclick="return confirm('Você quer mesmo remover este produto?')">Excluir</button></td>
-                </tr>
-            <?php 
+            <table class="table table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Data do pedido</th>
+                    <th scope="col">Data da entrega</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Alterar</th>
+                    <th scope="col">Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    if($pedidos){
+                        foreach($pedidos as $item){
+                ?>
+                    <tr id="<?=$item->getID()?>">
+                        <th class="item-pedido-lista" scope="row"><?=$item->getID()?></th>
+                        <td class="item-pedido-lista"><?=$item->getNumero()?></td>
+                        <td class="item-pedido-lista"><?=$item->getClienteNome()?></td>
+                        <td class="item-pedido-lista"><?=$item->getDataPedido()?></td>
+                        <td class="item-pedido-lista"><?=$item->getDataEntrega()?></td>
+                        <td class="item-pedido-lista"><?=$item->getSituacao()?></td>
+                        <td><a href="view_editar_pedido.php?id=<?=$item->getID()?>" class="btn btn-dark">Alterar</button></td>
+                        <td><a href="exclui_pedido.php?id=<?=$item->getID()?>" id="excluiPedido" class="btn btn-danger" onclick="return confirm('Você quer mesmo remover este pedido?')">Excluir</button></td>
+                    </tr>
+                <?php 
+                        }
+                    }else{
+                        echo "<td colspan=6 style='text-align:center;'>Sem registros</td>";
                     }
-                }else{
-                    echo "<td colspan=6 style='text-align:center;'>Sem registros</td>";
-                }
-            ?>
-            </tbody>
-        </table>
+                ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12" id="item-pedido-detalhe">
+
         </div>
     </div>
 </main>

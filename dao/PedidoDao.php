@@ -7,6 +7,7 @@ interface PedidoDao {
     public function insere($pedido);
     public function remove($pedido);
     public function altera($pedido);
+    public function buscaPorId($id);
     public function buscaPorNumero($numero);
     public function buscaPorNome($nome);
 

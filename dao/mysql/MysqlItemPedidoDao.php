@@ -96,12 +96,14 @@ class MysqlItemPedidoDao extends DAO implements ItemPedidoDao {
     public function buscaPorNumPedido($pedido_id) {
         
         $query = "SELECT
-                    id, quantidade, preco, pedido_id, produto_id
+                    ip.id, ip.quantidade, ip.preco, ip.pedido_id, ip.produto_id, p.imagem as produto_imagem, p.nome as produto_nome, p.descricao as produto_descricao, e.preco as produto_preco
                 FROM
-                    " . $this->table_name . "
+                    " . $this->table_name . " ip
+                JOIN produto p on (ip.produto_id = p.id)
+                JOIN estoque e on (p.id = e.produto_id)
                 WHERE
-                    pedido_id = ?";
-     
+                    ip.pedido_id = ?";
+
         $stmt = $this->conn->prepare( $query );
         $stmt->bindValue(1, $pedido_id);
         $stmt->execute();
@@ -110,7 +112,7 @@ class MysqlItemPedidoDao extends DAO implements ItemPedidoDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $item_pedido = new ItemPedido($id, $quantidade, $preco, $pedido_id, $produto_id); 
+            $item_pedido = new ItemPedido($id, $quantidade, $preco, $pedido_id, $produto_id, $produto_imagem, $produto_nome, $produto_descricao, $produto_preco); 
             $item_pedidos[] = $item_pedido;
         }
      

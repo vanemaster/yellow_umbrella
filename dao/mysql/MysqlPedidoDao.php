@@ -71,6 +71,30 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
         return false;
     }
 
+    public function buscaPorId($id) {
+        
+        $query = "SELECT
+                    id, numero, data_pedido, data_entrega, situacao, cliente_id
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    id = ?
+                LIMIT
+                    1 OFFSET 0";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+
+        $pedidos = null;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row) {
+            $pedidos = new Pedido($row['id'],$row['numero'], $row['data_pedido'], $row['data_entrega'], $row['situacao'], $row['cliente_id']);
+        }
+     
+        return $pedidos;
+    }
+
     public function buscaPorNumero($id, $pesquisa=null) {
         
         $query = "SELECT
@@ -115,7 +139,7 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
                     " . $this->table_name . " p
                 LEFT JOIN cliente e on (e.id = p.cliente_id)
                 WHERE
-                    p.numero LIKE '%".$nome."%'";
+                    e.nome LIKE '%".$nome."%'";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
@@ -157,11 +181,13 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    p.id, p.numero, p.data_pedido, p.data_entrega, p.situacao, p.cliente_id, f.preco as item_pedido_preco, f.quantidade as item_pedido_quantidade
+                    p.id, p.numero, p.data_pedido, p.data_entrega, p.situacao, p.cliente_id, c.nome as cliente_nome
                 FROM
-                    " . $this->table_name ." p 
-                    LEFT JOIN item_pedido f on (p.id = f.pedido_id)
-                    ORDER BY id ASC";
+                    " . $this->table_name ." p
+                    JOIN cliente c on (p.cliente_id = c.id)
+                    GROUP BY p.id
+                    ORDER BY p.id ASC
+                    ";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
@@ -170,7 +196,7 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $pedido = new Pedido($id, $numero, $data_pedido, $data_entrega, $situacao, $cliente_id, $item_pedido_preco, $item_pedido_quantidade); 
+            $pedido = new Pedido($id, $numero, $data_pedido, $data_entrega, $situacao, $cliente_id, $cliente_nome); 
             $pedidos[] = $pedido;
         }
         return $pedidos;

@@ -9,14 +9,16 @@ class Pedido{
     private $data_entrega;
     private $situacao;
     private $cliente_id;
+    private $cliente_nome;
 
-    public function __construct( $id=null, $numero, $data_pedido, $data_entrega, $situacao, $cliente_id){
+    public function __construct( $id=null, $numero, $data_pedido, $data_entrega, $situacao, $cliente_id, $cliente_nome=null){
         $this->id=$id;
         $this->numero=$numero;
         $this->data_pedido=$data_pedido;
         $this->data_entrega=$data_entrega;
         $this->situacao=$situacao;
         $this->cliente_id=$cliente_id;
+        $this->cliente_nome=$cliente_nome;
     }
 
     public function getId() { return intval($this->id); }
@@ -36,6 +38,9 @@ class Pedido{
 
     public function getClienteID() { return $this->cliente_id; }
     public function setClienteID($cliente_id) {$this->cliente_id = $cliente_id;}
+    
+    public function getClienteNome() { return $this->cliente_nome; }
+    public function setClienteNome($cliente_nome) {$this->cliente_nome = $cliente_nome;}
     
 }
 

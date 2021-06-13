@@ -62,6 +62,9 @@
                       <a class="nav-link" href="<?=$base?>/estoque/view_estoque.php">Estoque</a>
                     </li>
                     <li class="nav-item active">
+                      <a class="nav-link" href="<?=$base?>/pedido/view_pedidos.php">Pedidos</a>
+                    </li>
+                    <li class="nav-item active">
                       <a class="nav-link" href="<?=$base?>/usuario/view_usuarios.php">Usuários</a>
                     </li>
             <?php 

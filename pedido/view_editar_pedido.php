@@ -24,7 +24,7 @@
             ?>
         </div>
         <div class="col-lg-6 col-sm-12">
-        <form action="cadastro_pedido.php" method="post">
+            <form action="cadastro_pedido.php" method="post">
                 <input type="hidden" name="id" value="<?=$pedido->getId()?>"/>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Numero</label>

@@ -43,7 +43,8 @@
     width: 200px;
     height: 200px;
 }
-.imagem-produto.img-thumbnail.img-carrinho{
+.imagem-produto.img-thumbnail.img-carrinho,
+.imagem-tabela-item-pedido{
     width: 100px;
     height: 100px;
 }
@@ -88,6 +89,12 @@
     flex-direction: row;
 }
 .dados-cliente div:first-child{
+    background-color: #c2c2c2;
+}
+.table-lista-item-pedidos{
+    margin-top: 1.5rem;
+}
+.table-lista-item-pedidos thead{
     background-color: #c2c2c2;
 }
 @media only screen and (min-width: 300px) and (max-width:768px) {

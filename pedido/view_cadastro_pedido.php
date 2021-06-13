@@ -3,9 +3,6 @@
     include "../fachada.php";
     include "../header.php";
     include "../login/verifica.php";
-
-    $dao = $factory->getPedidoDao();
-    $pedidos = $dao->buscaTodos();
 ?>
 
 <main role="main" class="container">

@@ -16,7 +16,7 @@ if($result){
     if(intval($_POST["pesquisa"]) > 0){
         $pedido = $dao->buscaPorNumero(intval($_POST["pesquisa"]),true);
     }else{
-        $pedido = $dao->buscaPorDataPedido($_POST["pesquisa"]);
+        $pedido = $dao->buscaPorNome($_POST["pesquisa"]);
     }
 
     if(!$pedido){

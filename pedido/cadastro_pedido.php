@@ -72,7 +72,6 @@ if(isset($_SESSION['perfil_id']) && trim($_SESSION['perfil_id']) == "2"){
         $result = false;
     }
 
-    // alterar/inserir itens do pedido
     if($result){
         if(isset($_POST["id"]) and $_POST["id"] != ""){
             $pedido = $dao_pedido->buscaPorNumero($_POST["id"]);

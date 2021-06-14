@@ -17,7 +17,7 @@ CREATE TABLE `cliente` (
 
 INSERT INTO `cliente` (`id`, `nome`, `telefone`, `email`, `cartao_credito`, `endereco_id`, `usuario_id`) VALUES
 (1,	'Cliente 1',	'(56) 4654-646',	'teste@testecliente',	'8979878979',	5,	NULL),
-(3,	'Cliente Externo',	'(98) 78979-7998',	'teste@testeclienteexterno',	'564654646',	8,	7),
+(3,	'Cliente Externo 123',	'(98) 78979-7998',	'teste@testeclienteexterno',	'564654646',	8,	7),
 (4,	'João',	'(65) 46546-4646',	'teste@joao',	'654564646',	9,	8),
 (5,	'Maria',	'(23) 13213-1313',	'teste@testemaria',	'9797979',	10,	9);
 
@@ -27,6 +27,8 @@ CREATE TABLE `endereco` (
   `rua` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `numero` int NOT NULL,
   `complemento` varchar(255) NOT NULL,
+  `bairro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `cep` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cidade` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `estado_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -34,11 +36,12 @@ CREATE TABLE `endereco` (
   CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `endereco` (`id`, `rua`, `numero`, `complemento`, `cidade`, `estado_id`) VALUES
-(5,	'Rua das Camélias teste',	588,	'apto 13',	'Caxias do Sul',	21),
-(8,	'Rua das Bromélias',	987,	'ap 33',	'Caxias do Sul',	21),
-(9,	'Rua das Bromélias',	32132,	'apto 13',	'Caxias do Sul',	21),
-(10,	'Rua das Bromélias',	9879,	'ap 33',	'Caxias do Sul',	21);
+INSERT INTO `endereco` (`id`, `rua`, `numero`, `complemento`, `bairro`, `cep`, `cidade`, `estado_id`) VALUES
+(5,	'Rua das Camélias teste',	588,	'apto 13',	'',	'',	'Caxias do Sul',	21),
+(8,	'Rua das Bromélias',	987,	'ap 33',	'Rio Branco',	'95099330',	'Caxias do Sul',	21),
+(9,	'Rua das Bromélias',	32132,	'apto 13',	'',	'',	'Caxias do Sul',	21),
+(10,	'Rua das Bromélias',	9879,	'ap 33',	'',	'',	'Caxias do Sul',	21),
+(11,	'Rua das Bromélias',	353,	'ap 33',	'',	'',	'Caxias do Sul',	21);
 
 DROP TABLE IF EXISTS `estados`;
 CREATE TABLE `estados` (
@@ -89,7 +92,8 @@ CREATE TABLE `estoque` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
-(8,	13,	45.23,	9);
+(8,	1,	45.23,	9),
+(9,	8,	20.00,	10);
 
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
@@ -122,6 +126,11 @@ CREATE TABLE `item_pedido` (
   CONSTRAINT `item_pedido_ibfk_3` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `item_pedido` (`id`, `quantidade`, `preco`, `pedido_id`, `produto_id`) VALUES
+(3,	1,	45,	18,	9),
+(4,	1,	45,	19,	9),
+(5,	1,	20,	19,	10),
+(6,	1,	20,	20,	10);
 
 DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE `pedido` (
@@ -130,12 +139,16 @@ CREATE TABLE `pedido` (
   `data_pedido` datetime NOT NULL,
   `data_entrega` datetime NOT NULL,
   `situacao` varchar(255) NOT NULL,
-  `cliente_id` int NOT NULL,
+  `cliente_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cliente_id` (`cliente_id`),
-  CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
+  CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `pedido` (`id`, `numero`, `data_pedido`, `data_entrega`, `situacao`, `cliente_id`) VALUES
+(18,	8,	'2021-06-13 18:11:37',	'2021-06-23 18:11:37',	'1',	3),
+(19,	9,	'2021-06-13 18:50:53',	'2021-06-23 18:50:53',	'1',	3),
+(20,	10,	'2021-06-13 22:20:53',	'2021-06-23 22:20:53',	'1',	3);
 
 DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE `perfil` (
@@ -179,8 +192,9 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`, `perfil_id`) VALUES
 (3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa',	1),
-(7,	'teste@testeclienteexterno',	'698dc19d489c4e4db73e28a713eab07b',	'Cliente Externo',	2),
+(7,	'teste@testeclienteexterno',	'698dc19d489c4e4db73e28a713eab07b',	'Cliente Externo 123',	2),
 (8,	'teste@joao',	'698dc19d489c4e4db73e28a713eab07b',	'João',	2),
-(9,	'teste@testemaria',	'698dc19d489c4e4db73e28a713eab07b',	'Maria',	2);
+(9,	'teste@testemaria',	'698dc19d489c4e4db73e28a713eab07b',	'Maria',	2),
+(10,	'teste@testecliente',	'698dc19d489c4e4db73e28a713eab07b',	'Vanessa Admin',	2);
 
--- 2021-06-08 01:33:05
+-- 2021-06-14 01:30:19

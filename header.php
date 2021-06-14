@@ -41,7 +41,7 @@
                   <a class="nav-link" href="<?=$base?>/login/view_login.php">Login</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link btn btn-outline-dark"" href="<?=$base?>/login/view_cadastro_cliente.php">Cadastre-se</a>
+                  <a class="nav-link btn btn-outline-dark"" href="<?=$base?>/cliente/view_cadastro_cliente.php">Cadastre-se</a>
                 </li>
             <?php
               }

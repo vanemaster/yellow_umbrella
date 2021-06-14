@@ -2,14 +2,25 @@
     session_start();
     include "../fachada.php";
     include "../header.php";
-    include "../login/verifica.php";
+    // include "../login/verifica.php";
 
     $dao_estados = $factory->getEstadoDao();
     $estados = $dao_estados->buscaTodos();
 ?>
 
 <main role="main" class="container">
-    <h3 class="mb-3">Novo Cliente</h3>
+    <?php 
+        if(!isset($_SESSION['perfil_id'])){
+    ?>
+            <h3 class="mb-3">Preencha seus Dados</h3>
+    <?php
+        }else{
+    ?>
+            <h3 class="mb-3">Novo Cliente</h3>
+    <?php
+        }
+    ?>
+    
     <div class="row">
         <div class="col-lg-6 col-sm-12">
             <form action="cadastro_cliente.php" method="post">

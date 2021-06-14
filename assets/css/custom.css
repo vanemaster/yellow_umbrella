@@ -92,10 +92,15 @@
     background-color: #c2c2c2;
 }
 .table-lista-item-pedidos{
-    margin-top: 1.5rem;
+    margin-top: 3rem;
 }
 .table-lista-item-pedidos thead{
     background-color: #c2c2c2;
+}
+.btn-carrinho-header{
+    font-size: 1.25rem;
+    border: 1px solid;
+    padding: 0.15rem .75rem;
 }
 @media only screen and (min-width: 300px) and (max-width:768px) {
     .index-cover img{

@@ -90,7 +90,7 @@
           ?>
         </div>
         <div class="carrinho-wrapper">
-          <a href="<?=$base?>/pedido/view_carrinho.php" class="bi-cart4 btn btn-dark ml-3" style="font-size:1.25rem;" title="icon name" aria-hidden="true">
+          <a href="<?=$base?>/pedido/view_carrinho.php" class="bi-cart4 btn btn-dark ml-3 btn-carrinho-header" title="icon name" aria-hidden="true">
             <span class='carrinho-counter'>
               <?php 
                 if(isset($_SESSION['carrinho'])){

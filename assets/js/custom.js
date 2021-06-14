@@ -50,8 +50,8 @@ $(document).ready(function(){
           <th>Produto</th>\
           <th>Descricao</th>\
           <th>Quantidade</th>\
-          <th>Preco</th>\
           <th>Preco Unitario</th>\
+          <th>Preco Total</th>\
           </tr>\
           </thead><tbody>";
           for (var i = 0; i < json_response.length; i++) {
@@ -60,8 +60,8 @@ $(document).ready(function(){
             <td>"+json_response[i].nome+"</td>\
             <td>"+json_response[i].descricao+"</td>\
             <td>"+json_response[i].quantidade+"</td>\
-            <td>"+json_response[i].preco+"</td>\
             <td>"+json_response[i].preco_unitario+"</td>\
+            <td>"+json_response[i].preco+"</td>\
             </tr>";
           }
           strList += "</tbody></table>";

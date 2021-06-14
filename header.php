@@ -75,6 +75,9 @@
                   <li class="nav-item active">
                     <a class="nav-link" href="<?=$base?>/cliente/view_editar_cliente.php">Alterar seus dados</a>
                   </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="<?=$base?>/pedido/view_pedidos.php">Seus Pedidos</a>
+                  </li>
             <?php
                 }
               }

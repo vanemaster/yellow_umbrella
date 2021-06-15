@@ -8,6 +8,9 @@
     $dao = $factory->getPedidoDao();
     $pedido = $dao->buscaPorId($id);
 
+    $dao_cliente = $factory->getClienteDao();
+    $clientes = $dao_cliente->buscaTodos();
+
     if($pedido==null) {
         $pedido = new Pedido(null,null,null, null, null,null);
     }
@@ -29,6 +32,18 @@
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Numero</label>
                     <input type="text" class="form-control" value="<?=$pedido->getNumero()?>" name="numero" id="exampleFormControlInput1" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <select name="cliente_id" id="cliente" class="form-control">
+                        <?php 
+                            foreach ($clientes as $item){
+                        ?>
+                            <option value="<?=$item->getId()?>" <?php if($item->getID() == $pedido->getClienteID()){echo "selected='selected'";}?>><?=$item->getNome()?></option>
+                        <?php 
+                            }
+                        ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput2">Data de pedido</label>

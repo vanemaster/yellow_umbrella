@@ -3,6 +3,9 @@
     include "../fachada.php";
     include "../header.php";
     include "../login/verifica.php";
+
+    $dao_cliente = $factory->getClienteDao();
+    $clientes = $dao_cliente->buscaTodos();
 ?>
 
 <main role="main" class="container">
@@ -20,6 +23,18 @@
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Numero</label>
                     <input type="text" class="form-control" name="numero" id="exampleFormControlInput1" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <select name="cliente_id" id="cliente" class="form-control">
+                        <?php 
+                            foreach ($clientes as $item){
+                        ?>
+                            <option value="<?=$item->getId()?>"><?=$item->getNome()?></option>
+                        <?php 
+                            }
+                        ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput2">Data de pedido</label>

@@ -74,7 +74,7 @@ if(isset($_SESSION['perfil_id']) && trim($_SESSION['perfil_id']) == "2"){
 
     if($result){
         if(isset($_POST["id"]) and $_POST["id"] != ""){
-            $pedido = $dao_pedido->buscaPorNumero($_POST["id"]);
+            $pedido = $dao_pedido->buscaPorId($_POST["id"]);
             
             $pedido->setNumero($_POST["numero"]);
             $pedido->setDataPedido($_POST["data_pedido"]);

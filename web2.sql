@@ -16,10 +16,10 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `cliente` (`id`, `nome`, `telefone`, `email`, `cartao_credito`, `endereco_id`, `usuario_id`) VALUES
-(1,	'Cliente 1',	'(56) 4654-646',	'teste@testecliente',	'8979878979',	5,	NULL),
 (3,	'Cliente Externo 123',	'(98) 78979-7998',	'teste@testeclienteexterno',	'564654646',	8,	7),
-(4,	'João',	'(65) 46546-4646',	'teste@joao',	'654564646',	9,	8),
-(5,	'Maria',	'(23) 13213-1313',	'teste@testemaria',	'9797979',	10,	9);
+(4,	'João das Couve',	'(65) 46546-4646',	'teste@joao',	'654564646',	9,	8),
+(5,	'Maria',	'(23) 13213-1313',	'teste@testemaria',	'9797979',	10,	9),
+(7,	'Teste Cliente',	'(56) 46546-4646',	'teste@teste123externo',	'5646546546',	12,	11);
 
 DROP TABLE IF EXISTS `endereco`;
 CREATE TABLE `endereco` (
@@ -33,15 +33,16 @@ CREATE TABLE `endereco` (
   `estado_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `estado_id` (`estado_id`),
-  CONSTRAINT `endereco_ibfk_1` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`)
+  CONSTRAINT `endereco_ibfk_2` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `endereco` (`id`, `rua`, `numero`, `complemento`, `bairro`, `cep`, `cidade`, `estado_id`) VALUES
 (5,	'Rua das Camélias teste',	588,	'apto 13',	'',	'',	'Caxias do Sul',	21),
 (8,	'Rua das Bromélias',	987,	'ap 33',	'Rio Branco',	'95099330',	'Caxias do Sul',	21),
-(9,	'Rua das Bromélias',	32132,	'apto 13',	'',	'',	'Caxias do Sul',	21),
+(9,	'Rua das Bromélias',	32132,	'apto 13',	'Rio Branco',	'32132131313',	'Caxias do Sul',	21),
 (10,	'Rua das Bromélias',	9879,	'ap 33',	'',	'',	'Caxias do Sul',	21),
-(11,	'Rua das Bromélias',	353,	'ap 33',	'',	'',	'Caxias do Sul',	21);
+(11,	'Rua das Bromélias',	353,	'ap 33',	'',	'',	'Caxias do Sul',	21),
+(12,	'Rua das Bromélias',	6546,	'apto 13',	'Rio Branco',	'654654646',	'Caxias do Sul',	21);
 
 DROP TABLE IF EXISTS `estados`;
 CREATE TABLE `estados` (
@@ -88,12 +89,12 @@ CREATE TABLE `estoque` (
   `produto_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `produto_id` (`produto_id`),
-  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
+  CONSTRAINT `estoque_ibfk_3` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `estoque` (`id`, `quantidade`, `preco`, `produto_id`) VALUES
-(8,	1,	45.23,	9),
-(9,	8,	20.00,	10);
+(8,	0,	45.23,	9),
+(9,	7,	20.00,	10);
 
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE `fornecedor` (
@@ -109,8 +110,7 @@ CREATE TABLE `fornecedor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `fornecedor` (`id`, `nome`, `descricao`, `email`, `telefone`, `endereco_id`) VALUES
-(2,	'Fornecedor Teste',	'Teste',	'teste@testeguardachuva.com',	'(65) 46465-4646',	NULL),
-(3,	'Fornecedor Guarda Chuva',	'tese',	'teste@testeguarda.com',	'(87) 98797-8979',	NULL);
+(2,	'Fornecedor Teste das Couve',	'Teste',	'teste@testeguardachuva.com',	'(65) 46465-4646',	NULL);
 
 DROP TABLE IF EXISTS `item_pedido`;
 CREATE TABLE `item_pedido` (
@@ -122,15 +122,16 @@ CREATE TABLE `item_pedido` (
   PRIMARY KEY (`id`),
   KEY `pedido_id` (`pedido_id`),
   KEY `produto_id` (`produto_id`),
-  CONSTRAINT `item_pedido_ibfk_1` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`),
-  CONSTRAINT `item_pedido_ibfk_3` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`)
+  CONSTRAINT `item_pedido_ibfk_5` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `item_pedido_ibfk_6` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `item_pedido` (`id`, `quantidade`, `preco`, `pedido_id`, `produto_id`) VALUES
-(3,	1,	45,	18,	9),
 (4,	1,	45,	19,	9),
 (5,	1,	20,	19,	10),
-(6,	1,	20,	20,	10);
+(6,	1,	20,	20,	10),
+(7,	1,	20,	21,	10),
+(8,	2,	90,	22,	9);
 
 DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE `pedido` (
@@ -142,13 +143,14 @@ CREATE TABLE `pedido` (
   `cliente_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cliente_id` (`cliente_id`),
-  CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
+  CONSTRAINT `pedido_ibfk_3` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `pedido` (`id`, `numero`, `data_pedido`, `data_entrega`, `situacao`, `cliente_id`) VALUES
-(18,	8,	'2021-06-13 18:11:37',	'2021-06-23 18:11:37',	'1',	3),
-(19,	9,	'2021-06-13 18:50:53',	'2021-06-23 18:50:53',	'1',	3),
-(20,	10,	'2021-06-13 22:20:53',	'2021-06-23 22:20:53',	'1',	3);
+(19,	9,	'2021-06-13 18:50:53',	'2021-06-23 18:50:53',	'3',	4),
+(20,	10,	'2021-06-13 22:20:53',	'2021-06-23 22:20:53',	'2',	7),
+(21,	11,	'2021-06-13 22:51:32',	'2021-06-23 22:51:32',	'2',	3),
+(22,	12,	'2021-06-15 19:53:48',	'2021-06-25 19:53:48',	'1',	3);
 
 DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE `perfil` (
@@ -170,11 +172,11 @@ CREATE TABLE `produto` (
   `fornecedor_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fornecedor_id` (`fornecedor_id`),
-  CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`id`)
+  CONSTRAINT `produto_ibfk_3` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `produto` (`id`, `nome`, `descricao`, `imagem`, `fornecedor_id`) VALUES
-(9,	'Guarda Chuva Rainbow',	'teste',	'rainbow_umbrella_05-19-2021_103146.jpg',	3),
+(9,	'Guarda Chuva Rainbow',	'teste',	'rainbow_umbrella_05-19-2021_103146.jpg',	NULL),
 (10,	'Melancia',	'Modelo melancia',	'watermellon_umprella_05-19-2021_101920.jpg',	2),
 (13,	'Umbrella Mondo',	'teste',	'umbrella_mondo_05-19-2021_103549.jpg',	2);
 
@@ -193,8 +195,8 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id`, `email`, `senha`, `nome`, `perfil_id`) VALUES
 (3,	'vafranca@gmail.com',	'25c1c47fa6224632c6dc07137ea6089a',	'Vanessa',	1),
 (7,	'teste@testeclienteexterno',	'698dc19d489c4e4db73e28a713eab07b',	'Cliente Externo 123',	2),
-(8,	'teste@joao',	'698dc19d489c4e4db73e28a713eab07b',	'João',	2),
+(8,	'teste@joao',	'698dc19d489c4e4db73e28a713eab07b',	'João das Couve',	2),
 (9,	'teste@testemaria',	'698dc19d489c4e4db73e28a713eab07b',	'Maria',	2),
-(10,	'teste@testecliente',	'698dc19d489c4e4db73e28a713eab07b',	'Vanessa Admin',	2);
-
--- 2021-06-14 01:30:19
+(10,	'teste@testecliente',	'698dc19d489c4e4db73e28a713eab07b',	'Vanessa Admin',	2),
+(11,	'teste@teste123externo',	'698dc19d489c4e4db73e28a713eab07b',	'Teste Cliente',	2),
+(12,	'teste@testecliente1',	'blobga',	'Cliente 1',	2);

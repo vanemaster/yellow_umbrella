@@ -31,11 +31,6 @@ class MysqlFornecedorDao extends DAO implements FornecedorDao {
 
     public function remove($fornecedor) {
 
-        $query_prod = "UPDATE produto SET fornecedor_id = NULL WHERE fornecedor_id=".$fornecedor->getId();
-
-        $stmt = $this->conn->prepare( $query_prod);
-        $stmt->execute();
-
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
 

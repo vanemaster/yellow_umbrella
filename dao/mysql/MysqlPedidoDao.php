@@ -32,6 +32,35 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
 
     public function remove($pedido) {
 
+        // Ao remover um pedido, os itens voltam pro estoque - a menos que já tenha sido cancelado ou entregue
+        if($pedido->getSituacao() != "3" && $pedido->getSituacao() != "2"){
+            $query_item = "SELECT * FROM item_pedido WHERE pedido_id = ".$pedido->getID();
+            $stmt = $this->conn->prepare($query_item);
+            $stmt->execute();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $item_pedido = new ItemPedido($row['id'],$row['quantidade'], $row['preco'], $row['pedido_id'], $row['produto_id']);
+
+                $query_estoque = "SELECT * FROM estoque WHERE produto_id = ".$row['produto_id'];
+                $stmt = $this->conn->prepare($query_estoque);
+                $stmt->execute();
+
+                $estoque = null;
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row) {
+                    $estoque = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], null);
+                    $novo_estoque = $item_pedido->getQuantidade() + $estoque->getQuantidade();
+
+                    $query_atualiza_estoque = "UPDATE estoque SET quantidade = ".$novo_estoque." WHERE produto_id = ".$row['produto_id'];
+                    $stmt = $this->conn->prepare($query_atualiza_estoque);
+                    $stmt->execute();
+                }
+            }
+        }
+
+
         $query_items_pedido = "DELETE FROM item_pedido WHERE pedido_id = ".$pedido->getId();
         $stmt = $this->conn->prepare($query_items_pedido);
         $stmt->execute();
@@ -48,6 +77,34 @@ class MysqlPedidoDao extends DAO implements PedidoDao {
     }
 
     public function altera($pedido) {
+
+        // Pedido CANCELADO retorna itens pro estoque
+        if($pedido->getSituacao() == "3"){
+            $query_item = "SELECT * FROM item_pedido WHERE pedido_id = ".$pedido->getID();
+            $stmt = $this->conn->prepare($query_item);
+            $stmt->execute();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+                extract($row);
+                $item_pedido = new ItemPedido($row['id'],$row['quantidade'], $row['preco'], $row['pedido_id'], $row['produto_id']);
+
+                $query_estoque = "SELECT * FROM estoque WHERE produto_id = ".$row['produto_id'];
+                $stmt = $this->conn->prepare($query_estoque);
+                $stmt->execute();
+
+                $estoque = null;
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row) {
+                    $estoque = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], null);
+                    $novo_estoque = $item_pedido->getQuantidade() + $estoque->getQuantidade();
+
+                    $query_atualiza_estoque = "UPDATE estoque SET quantidade = ".$novo_estoque." WHERE produto_id = ".$row['produto_id'];
+                    $stmt = $this->conn->prepare($query_atualiza_estoque);
+                    $stmt->execute();
+                }
+            }
+        }
 
         $query = "UPDATE " . $this->table_name . 
         " SET numero = :numero, data_pedido = :data_pedido, data_entrega = :data_entrega, situacao = :situacao, cliente_id = :cliente_id" .

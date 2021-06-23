@@ -7,8 +7,7 @@ include_once("../login/verifica.php");
 $id = @$_GET["id"];
 
 $dao = $factory->getClienteDao();
-
-$cliente = new Cliente($id, null, null, null, null, null, null, null, null);
+$cliente = $dao->buscaPorId($id);
 
 unset($_SESSION["clientes"]);
 

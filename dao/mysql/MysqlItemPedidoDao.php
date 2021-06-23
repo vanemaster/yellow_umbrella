@@ -41,7 +41,7 @@ class MysqlItemPedidoDao extends DAO implements ItemPedidoDao {
             extract($row);
             $item_pedido = new ItemPedido($row['id'],$row['quantidade'], $row['preco'], $row['pedido_id'], $row['produto_id']);
 
-            $query_estoque = "SELECT * FROM estoque WHERE produto_id = ".$item_pedido->getProdutoID();
+            $query_estoque = "SELECT * FROM estoque WHERE produto_id = ".$row['produto_id'];
             $stmt = $this->conn->prepare($query_estoque);
             $stmt->execute();
 
@@ -49,11 +49,10 @@ class MysqlItemPedidoDao extends DAO implements ItemPedidoDao {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row) {
                 $estoque = new Estoque($row['id'],$row['quantidade'], $row['preco'], $row['produto_id'], null);
-            
-                $query_atualiza_estoque = "UPDATE estoque SET quantidade = :quantidade WHERE produto_id = ".$pedido_id;
+                $novo_estoque = $item_pedido->getQuantidade() + $estoque->getQuantidade();
+
+                $query_atualiza_estoque = "UPDATE estoque SET quantidade = ".$novo_estoque." WHERE produto_id = ".$row['produto_id'];
                 $stmt = $this->conn->prepare($query_atualiza_estoque);
-                
-                $stmt->bindValue(":quantidade", $item_pedido->getQuantidade() + $estoque->getQuantidade());
                 $stmt->execute();
             }
         }

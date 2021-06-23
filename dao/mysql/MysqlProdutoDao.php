@@ -30,10 +30,6 @@ class MysqlProdutoDao extends DAO implements ProdutoDao {
     }
 
     public function remove($produto) {
-        $query_estoque = "DELETE FROM estoque WHERE produto_id = ".$produto->getId();
-        $stmt = $this->conn->prepare($query_estoque);
-        $stmt->execute();
-
         $query = "DELETE FROM " . $this->table_name . " WHERE id = ".$produto->getId();
        
         $stmt = $this->conn->prepare($query);

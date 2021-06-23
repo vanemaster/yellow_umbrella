@@ -33,8 +33,7 @@ class MysqlClienteDao extends DAO implements ClienteDao {
 
     public function remove($cliente) {
 
-        $query = "DELETE FROM " . $this->table_name . 
-        " WHERE id = :id";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
